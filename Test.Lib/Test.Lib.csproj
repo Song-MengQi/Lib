@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{272BC670-FE9E-40B0-8303-6D9E28A0B474}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Test.Lib</RootNamespace>
+    <AssemblyName>Test.Lib</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>none</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <Choose>
+    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Compile Include="Knowledge\Checks\ChecksTest.cs" />
+    <Compile Include="Knowledge\Collections\DictionaryTree\DictionaryTreeMock.cs" />
+    <Compile Include="Knowledge\Collections\DictionaryTree\DictionaryTreeTestBase.cs" />
+    <Compile Include="Knowledge\Collections\DictionaryTree\HungryDictionaryTree\HungryDictionaryTreeTest.cs" />
+    <Compile Include="Knowledge\Collections\DictionaryTree\LazyDictionaryTree\LazyDictionaryTreeTest.cs" />
+    <Compile Include="Knowledge\Collections\Dictionary\DictionaryTestBase.cs" />
+    <Compile Include="Knowledge\Collections\Dictionary\HybridDictionaryTest.cs" />
+    <Compile Include="Knowledge\Collections\Dictionary\ListDictionaryTest.cs" />
+    <Compile Include="Knowledge\Collections\Dictionary\OrderedDictionaryTest.cs" />
+    <Compile Include="Knowledge\Collections\Queue\PriorityQueueTest.cs" />
+    <Compile Include="Knowledge\Extends\ActionExtendsTest.cs" />
+    <Compile Include="Knowledge\Extends\ArrayExtendsTest.cs" />
+    <Compile Include="Knowledge\Extends\BitConverterExtendsTest.cs" />
+    <Compile Include="Knowledge\Extends\BitExtendsTest.cs" />
+    <Compile Include="Knowledge\Extends\BoolExtendTest.cs" />
+    <Compile Include="Knowledge\Extends\CharExtendTest.cs" />
+    <Compile Include="Knowledge\Extends\CheckExtendsTest.cs" />
+    <Compile Include="Knowledge\Extends\ConcurrentQueueExtendsTest.cs" />
+    <Compile Include="Knowledge\Extends\DateTimeExtendsTest.cs" />
+    <Compile Include="Knowledge\Extends\DateTimeExtendTest.cs" />
+    <Compile Include="Knowledge\Extends\DirectoryExtendsTest.cs" />
+    <Compile Include="Knowledge\Extends\EnumExtendsTest.cs" />
+    <Compile Include="Knowledge\Extends\FileExtendsTest.cs" />
+    <Compile Include="Knowledge\Extends\FuncExtendsTest.cs" />
+    <Compile Include="Knowledge\Extends\IDictionaryExtendTest.cs" />
+    <Compile Include="Knowledge\Extends\IEnumerableExtendTest.cs" />
+    <Compile Include="Knowledge\Extends\IEnumerableExtendsTest.cs" />
+    <Compile Include="Knowledge\Extends\ManualResetEventSlimExtendsTest.cs" />
+    <Compile Include="Knowledge\Extends\MathExtendsTest.cs" />
+    <Compile Include="Knowledge\Extends\ObjectExtendsTest.cs" />
+    <Compile Include="Knowledge\Extends\PathExtendsTest.cs" />
+    <Compile Include="Knowledge\Extends\QueueExtendTest.cs" />
+    <Compile Include="Knowledge\Extends\ResultExtendsTest.cs" />
+    <Compile Include="Knowledge\Extends\ResultExtendTest.cs" />
+    <Compile Include="Knowledge\Extends\StackExtendTest.cs" />
+    <Compile Include="Knowledge\Extends\StringExtendsTest.cs" />
+    <Compile Include="Knowledge\Extends\StringExtendTest.cs" />
+    <Compile Include="Knowledge\Extends\TaskExtendsTest.cs" />
+    <Compile Include="Knowledge\Extends\ThreadPoolExtendsTest.cs" />
+    <Compile Include="Knowledge\Extends\TimeSpanExtendTest.cs" />
+    <Compile Include="Knowledge\Extends\TryExtendsTest.cs" />
+    <Compile Include="Knowledge\Invokable\InvokableMock.cs" />
+    <Compile Include="Knowledge\Invokable\InvokableTest.cs" />
+    <Compile Include="Knowledge\IoC\IoCManagerTest.cs" />
+    <Compile Include="Knowledge\Lockable\LockableMock.cs" />
+    <Compile Include="Knowledge\Lockable\LockableTest.cs" />
+    <Compile Include="Knowledge\Lockton\LocktonTest.cs" />
+    <Compile Include="Knowledge\Log\LogMockBase.cs" />
+    <Compile Include="Knowledge\Log\LogTest.cs" />
+    <Compile Include="Knowledge\Log\LogTestBase.cs" />
+    <Compile Include="Knowledge\Math\RangeTest.cs" />
+    <Compile Include="Knowledge\PathManager\PathManagerTest.cs" />
+    <Compile Include="Knowledge\PathManager\PathManagerTestBase.cs" />
+    <Compile Include="Knowledge\SerializableWithSlim\SerializableWithSlimMock.cs" />
+    <Compile Include="Knowledge\SerializableWithSlim\SerializableWithSlimTest.cs" />
+    <Compile Include="Knowledge\Serializable\PrioritySerializable\PrioritySerializableMock.cs" />
+    <Compile Include="Knowledge\Serializable\PrioritySerializable\PrioritySerializableTest.cs" />
+    <Compile Include="Knowledge\Serializable\RunnableQueue\RunnableQueue\SerialQueue\PrioritySerialQueue\PrioritySerialQueueTest.cs" />
+    <Compile Include="Knowledge\Serializable\RunnableQueue\RunnableQueue\SerialQueue\SerialQueueTest.cs" />
+    <Compile Include="Knowledge\Serializable\RunnableQueue\RunnableQueue\SerialQueue\SerialQueueTestBase.cs" />
+    <Compile Include="Knowledge\Serializable\Serializable\SerializableMock.cs" />
+    <Compile Include="Knowledge\Serializable\Serializable\SerializableTest.cs" />
+    <Compile Include="Knowledge\Singleton\SingletonBaseTest.cs" />
+    <Compile Include="Knowledge\IoC\IoCTest.cs" />
+    <Compile Include="Knowledge\Singleton\SingletonTestBase.cs" />
+    <Compile Include="Knowledge\Slim\SlimMock.cs" />
+    <Compile Include="Knowledge\Slim\SlimTest.cs" />
+    <Compile Include="Knowledge\State\StateMachine\StateMachineMock.cs" />
+    <Compile Include="Knowledge\State\StateMachine\StateMachineTest.cs" />
+    <Compile Include="Knowledge\State\StateMachine\StateMachineTestBase.cs" />
+    <Compile Include="MockBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lib\Lib.csproj">
+      <Project>{dce42aa6-898f-41d9-9573-be605519086e}</Project>
+      <Name>Lib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Choose>
+    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

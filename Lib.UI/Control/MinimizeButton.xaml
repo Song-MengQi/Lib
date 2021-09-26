@@ -1,0 +1,12 @@
+﻿<UserControl x:Class="Lib.UI.MinimizeButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"
+             d:DesignHeight="48" d:DesignWidth="48"
+             Height="48" Width="48"
+             Background="Transparent"
+             MouseEnter="MinimizeButton_MouseEnter" MouseLeave="MinimizeButton_MouseLeave" Cursor="Hand">
+    <Line X1="16" Y1="26" X2="32" Y2="26" Stroke="White" StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+</UserControl>

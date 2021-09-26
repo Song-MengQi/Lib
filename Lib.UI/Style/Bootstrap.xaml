@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Lib.UI;component/Style/Window.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Lib.UI;component/Style/Label.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Lib.UI;component/Style/Panel.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Lib.UI;component/Style/Button.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Lib.UI;component/Style/ProgressBar.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Lib.UI;component/Style/FormControl.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Lib.UI;component/Style/InputGroup.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Lib.UI;component/Style/DataGrid.xaml"/>
+        <!--<ResourceDictionary Source="pack://application:,,,/Lib.UI;component/Style/Path.xaml"/>-->
+        <ResourceDictionary Source="pack://application:,,,/Lib.UI;component/Style/Extend.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

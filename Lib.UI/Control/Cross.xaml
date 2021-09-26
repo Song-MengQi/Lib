@@ -1,0 +1,13 @@
+﻿<UserControl x:Class="Lib.UI.Cross"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"
+             d:DesignHeight="48" d:DesignWidth="48"
+             Height="48" Width="48">
+    <Grid>
+        <Line X1="16" Y1="24" X2="32" Y2="24" Stroke="White" StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+        <Line X1="24" Y1="16" X2="24" Y2="32" Stroke="White" StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+    </Grid>
+</UserControl>

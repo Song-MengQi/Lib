@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DCE42AA6-898F-41D9-9573-BE605519086E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Lib</RootNamespace>
+    <AssemblyName>Lib</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>none</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Config\TcpConfig.cs" />
+    <Compile Include="Knowledge\Checks\Checks.cs" />
+    <Compile Include="Knowledge\Collections\DictionaryTree\DictionaryTreeBase.cs" />
+    <Compile Include="Knowledge\Collections\DictionaryTree\HungryDictionaryTree\HungryDictionaryTree.cs" />
+    <Compile Include="Knowledge\Collections\DictionaryTree\IDictionaryTree.cs" />
+    <Compile Include="Knowledge\Collections\DictionaryTree\LazyDictionaryTree\LazyDictionaryTree.cs" />
+    <Compile Include="Knowledge\Collections\DictionaryTree\LazyDictionaryTree\LazyDictionaryTreeBase.cs" />
+    <Compile Include="Knowledge\Collections\Dictionary\HybridDictionary.cs" />
+    <Compile Include="Knowledge\Collections\Dictionary\ListDictionary.cs" />
+    <Compile Include="Knowledge\Collections\Dictionary\OrderedDictionary.cs" />
+    <Compile Include="Knowledge\Collections\Queue\PriorityQueue.cs" />
+    <Compile Include="Knowledge\Extends\ActionExtends.cs" />
+    <Compile Include="Knowledge\Extends\ArrayExtends.cs" />
+    <Compile Include="Knowledge\Extends\AssemblyExtends.cs" />
+    <Compile Include="Knowledge\Extends\BitConverterExtends.cs" />
+    <Compile Include="Knowledge\Extends\BitExtends.cs" />
+    <Compile Include="Knowledge\Extends\BoolExtend.cs" />
+    <Compile Include="Knowledge\Extends\CharExtend.cs" />
+    <Compile Include="Knowledge\Extends\CheckExtends.cs" />
+    <Compile Include="Knowledge\Extends\ConcurrentQueueExtend.cs" />
+    <Compile Include="Knowledge\Extends\DateTimeExtend.cs" />
+    <Compile Include="Knowledge\Extends\DateTimeExtends.cs" />
+    <Compile Include="Knowledge\Extends\DictionaryExtends.cs" />
+    <Compile Include="Knowledge\Extends\DirectoryExtends.cs" />
+    <Compile Include="Knowledge\Extends\EnsureExtends.cs" />
+    <Compile Include="Knowledge\Extends\EnumExtends.cs" />
+    <Compile Include="Knowledge\Extends\FileExtends.cs" />
+    <Compile Include="Knowledge\Extends\FuncExtends.cs" />
+    <Compile Include="Knowledge\Extends\ICollectionExtends.cs" />
+    <Compile Include="Knowledge\Extends\IDictionaryExtend.cs" />
+    <Compile Include="Knowledge\Extends\IDictionaryTreeExtend.cs" />
+    <Compile Include="Knowledge\Extends\IDisposableExtends.cs" />
+    <Compile Include="Knowledge\Extends\IEnumerableExtend.cs" />
+    <Compile Include="Knowledge\Extends\IEnumerableExtends.cs" />
+    <Compile Include="Knowledge\Extends\IoCManagerExtend.cs" />
+    <Compile Include="Knowledge\Extends\ISlimExtends.cs" />
+    <Compile Include="Knowledge\Extends\ManualResetEventSlimExtends.cs" />
+    <Compile Include="Knowledge\Extends\MathExtends.cs" />
+    <Compile Include="Knowledge\Extends\ObjectExtend.cs" />
+    <Compile Include="Knowledge\Extends\ObjectExtends.cs" />
+    <Compile Include="Knowledge\Extends\PathExtends.cs" />
+    <Compile Include="Knowledge\Extends\ProcessExtend.cs" />
+    <Compile Include="Knowledge\Extends\ProcessExtends.cs" />
+    <Compile Include="Knowledge\Extends\QueueExtend.cs" />
+    <Compile Include="Knowledge\Extends\ResultExtend.cs" />
+    <Compile Include="Knowledge\Extends\ResultExtends.cs" />
+    <Compile Include="Knowledge\Extends\StackExtend.cs" />
+    <Compile Include="Knowledge\Extends\StateExtends.cs" />
+    <Compile Include="Knowledge\Extends\StreamExtend.cs" />
+    <Compile Include="Knowledge\Extends\StringExtend.cs" />
+    <Compile Include="Knowledge\Extends\StringExtends.cs" />
+    <Compile Include="Knowledge\Extends\TaskExtends.cs" />
+    <Compile Include="Knowledge\Extends\ThreadPoolExtends.cs" />
+    <Compile Include="Knowledge\Extends\TimeSpanExtend.cs" />
+    <Compile Include="Knowledge\Extends\TryExtends.cs" />
+    <Compile Include="Knowledge\Extends\TypeExtends.cs" />
+    <Compile Include="Knowledge\InvokableWithRunning\IInvokableWithRunning.cs" />
+    <Compile Include="Knowledge\InvokableWithRunning\InvokableWithRunning.cs" />
+    <Compile Include="Knowledge\Invokable\%28NoUse%29IInvokable.cs" />
+    <Compile Include="Knowledge\Invokable\%28NoUse%29Invokable.cs" />
+    <Compile Include="Knowledge\Invokable\IInvokable.cs" />
+    <Compile Include="Knowledge\Invokable\Invokable.cs" />
+    <Compile Include="Knowledge\IoC\IoCManager.cs" />
+    <Compile Include="Knowledge\LockableWithRunning\ILockableWithRunning.cs" />
+    <Compile Include="Knowledge\LockableWithRunning\LockableWithRunning.cs" />
+    <Compile Include="Knowledge\Lockable\ILockable.cs" />
+    <Compile Include="Knowledge\Lockable\Lockable.cs" />
+    <Compile Include="Knowledge\Lockton\Lockton.cs" />
+    <Compile Include="Knowledge\Log\ILog.cs" />
+    <Compile Include="Knowledge\Log\LogBase.cs" />
+    <Compile Include="Knowledge\Math\Range.cs" />
+    <Compile Include="Knowledge\PathManager\PathManager.cs" />
+    <Compile Include="Knowledge\PathManager\PathManagerBase.cs" />
+    <Compile Include="Knowledge\Result\Result.cs" />
+    <Compile Include="Knowledge\SerialInteraction\ISerialInteraction.cs" />
+    <Compile Include="Knowledge\SerialInteraction\SerialInteraction.cs" />
+    <Compile Include="Knowledge\SerializableWithSlim\ISerializableWithSlim.cs" />
+    <Compile Include="Knowledge\SerializableWithSlim\SerializableWithSlim.cs" />
+    <Compile Include="Knowledge\Serializable\PrioritySerializable\IPrioritySerializable.cs" />
+    <Compile Include="Knowledge\Serializable\PrioritySerializable\PrioritySerializable.cs" />
+    <Compile Include="Knowledge\Serializable\RunnableQueue\RunnableQueue\IRunnableQueue.cs" />
+    <Compile Include="Knowledge\Serializable\RunnableQueue\RunnableQueue\RunnableQueueBase.cs" />
+    <Compile Include="Knowledge\Serializable\RunnableQueue\RunnableQueue\SerialQueue\PrioritySerialQueue\PrioritySerialQueue.cs" />
+    <Compile Include="Knowledge\Serializable\RunnableQueue\RunnableQueue\SerialQueue\SerialQueue.cs" />
+    <Compile Include="Knowledge\Serializable\RunnableQueue\RunnableQueue\SerialQueue\SerialQueueBase.cs" />
+    <Compile Include="Knowledge\Serializable\RunnableQueue\Runnable\IRunnable.cs" />
+    <Compile Include="Knowledge\Serializable\RunnableQueue\Runnable\RunnableAction.cs" />
+    <Compile Include="Knowledge\Serializable\RunnableQueue\Runnable\RunnableTask.cs" />
+    <Compile Include="Knowledge\Serializable\Serializable\ISerializable.cs" />
+    <Compile Include="Knowledge\Serializable\Serializable\Serializable.cs" />
+    <Compile Include="Knowledge\IoC\IoC.cs" />
+    <Compile Include="Knowledge\Singleton\SingletonBase.cs" />
+    <Compile Include="Knowledge\Slim\ISlim.cs" />
+    <Compile Include="Knowledge\Slim\Slim.cs" />
+    <Compile Include="Knowledge\State\State.cs" />
+    <Compile Include="Knowledge\State\StateMachine\IStateMachine.cs" />
+    <Compile Include="Knowledge\State\StateMachine\StateMachineBase.cs" />
+    <Compile Include="Knowledge\Extends\TickExtends.cs" />
+    <Compile Include="Knowledge\Extends\TypeExtend.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResultState\ResultState.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties Reactor_Enabled="0" Reactor_Commands="" Reactor_Project="" Reactor_Configuration="ALL" Reactor_Output="" Reactor_Deploy="0" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

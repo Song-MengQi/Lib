@@ -1,0 +1,14 @@
+﻿{
+  "DefaultIntranetHost": null,
+  "DefaultExtranetHost": null,
+  "IntranetHostDic": {
+    "Bus.Frame": "192.168.50.15"
+  },
+  "ExtranetHostDic": {},
+  
+  "DefaultWebHttpPort": 40000,
+  "DefaultNetTcpPort": 20000,
+  "PortDic": {},
+
+  "PathDic": {}
+}
