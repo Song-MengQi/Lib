@@ -60,7 +60,6 @@
     <Compile Include="Knowledge\Json\JsonDispatchFormatter.cs" />
     <Compile Include="Knowledge\Json\RawBodyWriter.cs" />
     <Compile Include="Knowledge\ServiceHostBuilder\IServiceHostBuilder.cs" />
-    <Compile Include="Knowledge\ServiceHostBuilder\JsonServiceHostBuilder.cs" />
     <Compile Include="Knowledge\ServiceHostBuilder\NetNamedPipeServiceHostBuilder.cs" />
     <Compile Include="Knowledge\ServiceHostBuilder\NetTcpServiceHostBuilder.cs" />
     <Compile Include="Knowledge\ServiceHostBuilder\ServiceHostBuilderBase.cs" />

@@ -6,7 +6,6 @@ namespace Lib.Server
     {
         public const string NamedPipeService = "NamedPipeService";
         public const string TcpService = "TcpService";
-        public const string JsonService = "JsonService";
         public const string Service = "Service";
         public static bool EndsWithNamedPipeService(string str)
         {
@@ -15,10 +14,6 @@ namespace Lib.Server
         public static bool EndsWithTcpService(string str)
         {
             return default(string) != str && str.EndsWith(TcpService);
-        }
-        public static bool EndsWithJsonService(string str)
-        {
-            return default(string) != str && str.EndsWith(JsonService);
         }
 
         public static string GetNamespace(Type type)
@@ -36,10 +31,6 @@ namespace Lib.Server
         public static string GetWebHttpNameInUrl(string contractName)
         {
             return contractName.TrimOnceStart("I").TrimOnceEnd(Service);
-        }
-        public static string GetJsonNameInUrl(string contractName)
-        {
-            return contractName.TrimOnceStart("I").TrimOnceEnd(JsonService);
         }
 
         public static string GetAddress(string protocol, string path)

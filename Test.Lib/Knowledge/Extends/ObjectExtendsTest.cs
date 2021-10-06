@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Test.Lib;
 
-namespace Test
+namespace Test.Lib
 {
     [TestClass]
     public class ObjectExtendsTest : TestBase
@@ -17,8 +17,8 @@ namespace Test
             Assert.IsTrue(ObjectExtends.EqualsDefault(default(string)));
             Assert.IsFalse(ObjectExtends.EqualsDefault(string.Empty));
 
-            Assert.AreEqual(ObjectExtends.DefaultThen(default(string), ()=>string.Empty), string.Empty);
-            Assert.AreEqual(ObjectExtends.DefaultThen(string.Empty, ()=>default(string)), string.Empty);
+            Assert.AreEqual(ObjectExtends.DefaultThen(default(string), string.Empty), string.Empty);
+            Assert.AreEqual(ObjectExtends.DefaultThen(string.Empty, default(string)), string.Empty);
 
             Assert.AreNotEqual(ObjectExtends.DefaultThen(default(ObjectExtendsTestClassA)), default(ObjectExtendsTestClassA));
             Assert.AreNotEqual(ObjectExtends.DefaultThen<ObjectExtendsTestClassB, ObjectExtendsTestClassA>(default(ObjectExtendsTestClassA)), default(ObjectExtendsTestClassA));

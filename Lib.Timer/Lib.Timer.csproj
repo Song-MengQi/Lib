@@ -41,7 +41,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\Config.cs" />
-    <Compile Include="Extends\TotalTimerExtends.cs" />
+    <Compile Include="Knowledge\Extends\TotalTimerExtends.cs" />
+    <Compile Include="Knowledge\Refresher\TimingRefresher\ITimingRefresher.cs" />
+    <Compile Include="Knowledge\Refresher\TimingRefresher\LazyTimingRefresher\ILazyTimingRefresher.cs" />
+    <Compile Include="Knowledge\Refresher\TimingRefresher\LazyTimingRefresher\LazyTimingRefresher.cs" />
+    <Compile Include="Knowledge\Refresher\TimingRefresher\TimingRefresher.cs" />
+    <Compile Include="Knowledge\TimingCache\ObjectTicks.cs" />
+    <Compile Include="Knowledge\TimingCache\TimingCache\ConcurrentTimingCache\ConcurrentTimingCache.cs" />
+    <Compile Include="Knowledge\TimingCache\TimingCache\ITimingCache.cs" />
+    <Compile Include="Knowledge\TimingCache\TimingCache\TimingCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TotalTimer\TimingAction.cs" />
     <Compile Include="TotalTimer\TotalTimer.cs" />

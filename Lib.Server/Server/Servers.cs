@@ -28,9 +28,9 @@ namespace Lib.Server
         public static string GetQuery() { return OperationContext.Current.IncomingMessageHeaders.To.Query; }
 
         public static IT GetCallbackChannel<IT>()
-            where IT : class
         {
-            return IoC<IT>.Instance ?? OperationContext.Current.GetCallbackChannel<IT>();
+            //return ObjectExtends.DefaultThen(IoC<IT>.Instance, OperationContext.Current.GetCallbackChannel<IT>);
+            return ObjectExtends.DefaultThen(IoC<IT>.Instance, ()=>OperationContext.Current.GetCallbackChannel<IT>());
         }
     }
 }

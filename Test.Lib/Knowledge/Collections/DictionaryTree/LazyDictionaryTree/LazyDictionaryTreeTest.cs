@@ -1,4 +1,6 @@
-﻿using Lib;
+﻿using System;
+using System.Collections.Generic;
+using Lib;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Test.Lib
@@ -6,6 +8,10 @@ namespace Test.Lib
     [TestClass]
     public class LazyDictionaryTreeTest : DictionaryTreeTestBase<LazyDictionaryTree<string,string>>
     {
+        protected override LazyDictionaryTree<string, string> CreateEmptyInstance()
+        {
+            return new LazyDictionaryTree<string, string>(default(string), default(Func<string, Dictionary<string, string>>[]));
+        }
         protected override LazyDictionaryTree<string, string> CreateInstance()
         {
             return new LazyDictionaryTree<string, string>(default(string), getTestData());

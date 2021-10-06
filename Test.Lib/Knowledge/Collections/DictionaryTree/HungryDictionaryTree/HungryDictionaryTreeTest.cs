@@ -1,4 +1,6 @@
-﻿using Lib;
+﻿using System;
+using System.Collections.Generic;
+using Lib;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Test.Lib
@@ -6,6 +8,10 @@ namespace Test.Lib
     [TestClass]
     public class HungryDictionaryTreeTest : DictionaryTreeTestBase<HungryDictionaryTree<string,string>>
     {
+        protected override HungryDictionaryTree<string, string> CreateEmptyInstance()
+        {
+            return new HungryDictionaryTree<string, string>(default(string), default(Func<string, Dictionary<string, string>>[]));
+        }
         protected override HungryDictionaryTree<string, string> CreateInstance()
         {
             return new HungryDictionaryTree<string, string>(default(string), getTestData());

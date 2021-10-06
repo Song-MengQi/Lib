@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Lib
 {
@@ -142,13 +143,13 @@ namespace Lib
         }
         public static Result GetResult(int resultState, Action action)
         {
-            if (0 != resultState) return new Result(resultState);
+            if (ResultState.Success != resultState) return new Result(resultState);
             action();
             return new Result();
         }
         public static Result<T> GetResult<T>(int resultState, Func<T> func)
         {
-            return 0 == resultState ? new Result<T>(func()) : new Result<T>(resultState);
+            return ResultState.Success == resultState ? new Result<T>(func()) : new Result<T>(resultState);
         }
         #endregion
         #region func返回Result
@@ -274,35 +275,35 @@ namespace Lib
         }
         public static Result GetResult(int resultState, Func<Result> func)
         {
-            return 0 == resultState ? func() : new Result(resultState);
+            return ResultState.Success == resultState ? func() : new Result(resultState);
         }
         public static Result<T> GetResult<T>(int resultState, Func<Result<T>> func)
         {
-            return 0 == resultState ? func() : new Result<T>(resultState);
+            return ResultState.Success == resultState ? func() : new Result<T>(resultState);
         }
         #endregion
         #endregion
 
         #region func from Source
-        //public static Result<TResult> GetResult<TSource, TResult>(TSource source, Func<TSource, TResult> func)
-        //{
-        //    return new Result<TResult>(func(source));
-        //}
-        //public static Result<TResult[]> GetArrayResult<TSource, TResult>(TSource[] sources, Func<TSource, TResult> func)
-        //{
-        //    return new Result<TResult[]>(sources.Select(func).ToArray());
-        //}
-        //public static Result<TResult> GetResult<TSource, TResult>(TSource source, Func<TSource, TResult> func, int state)
-        //    where TSource:class
-        //{
-        //    if (source == default(TSource)) return new Result<TResult>(state);
-        //    return new Result<TResult>(func(source));
-        //}
-        //public static Result<TResult[]> GetArrayResult<TSource, TResult>(TSource[] sources, Func<TSource, TResult> func, int state)
-        //{
-        //    if (default(TSource[]) == sources) return new Result<TResult[]>(state);
-        //    return new Result<TResult[]>(sources.Select(func).ToArray());
-        //}
+        public static Result<TResult> GetResult<TSource, TResult>(TSource source, Func<TSource, TResult> func)
+        {
+            return new Result<TResult>(func(source));
+        }
+        public static Result<TResult[]> GetArrayResult<TSource, TResult>(TSource[] sources, Func<TSource, TResult> func)
+        {
+            return new Result<TResult[]>(sources.Select(func).ToArray());
+        }
+        public static Result<TResult> GetResult<TSource, TResult>(TSource source, Func<TSource, TResult> func, int state)
+        {
+            return ObjectExtends.EqualsDefault(source)
+                ? new Result<TResult>(state)
+                : new Result<TResult>(func(source));
+        }
+        public static Result<TResult[]> GetArrayResult<TSource, TResult>(TSource[] sources, Func<TSource, TResult> func, int state)
+        {
+            if (default(TSource[]) == sources) return new Result<TResult[]>(state);
+            return new Result<TResult[]>(sources.Select(func).ToArray());
+        }
         #endregion
     }
 }

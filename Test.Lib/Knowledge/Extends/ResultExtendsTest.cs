@@ -644,55 +644,55 @@ namespace Test.Lib
         }
         #endregion
         #region func from source
-        //[TestMethod]
-        //public void TestGetResult()
-        //{
-        //    int source1;
-        //    Result<int> result1;
+        [TestMethod]
+        public void TestGetResult()
+        {
+            int source1;
+            Result<int> result1;
 
-        //    source1 = 0;
-        //    result1 = ResultExtends.GetResult(source1, i=>i+1);
-        //    Assert.AreEqual(result1.State, 0);
-        //    Assert.AreEqual(result1.data, 1);
+            source1 = 0;
+            result1 = ResultExtends.GetResult(source1, i=>i+1);
+            Assert.AreEqual(result1.State, 0);
+            Assert.AreEqual(result1.Data, 1);
 
-        //    string source2;
-        //    Result<int> result2;
+            string source2;
+            Result<int> result2;
 
-        //    source2 = default(string);
-        //    result2 = ResultExtends.GetResult(source2, s=>int.Parse(s)+1, 1);
-        //    Assert.AreEqual(result2.State, 1);
-        //    Assert.AreEqual(result2.data, default(int));
+            source2 = default(string);
+            result2 = ResultExtends.GetResult(source2, s=>int.Parse(s)+1, 1);
+            Assert.AreEqual(result2.State, 1);
+            Assert.AreEqual(result2.Data, default(int));
 
-        //    source2 = "0";
-        //    result2 = ResultExtends.GetResult(source2, s=>int.Parse(s)+1, 1);
-        //    Assert.AreEqual(result2.State, 0);
-        //    Assert.AreEqual(result2.data, 1);
-        //}
+            source2 = "0";
+            result2 = ResultExtends.GetResult(source2, s=>int.Parse(s)+1, 1);
+            Assert.AreEqual(result2.State, 0);
+            Assert.AreEqual(result2.Data, 1);
+        }
 
-        //[TestMethod]
-        //public void TestGetArrayResult()
-        //{
-        //    int[] source;
-        //    Result<int[]> result;
+        [TestMethod]
+        public void TestGetArrayResult()
+        {
+            int[] source;
+            Result<int[]> result;
 
-        //    source = new int[]{1,2};
-        //    result = ResultExtends.GetArrayResult(source, i=>i+1);
-        //    Assert.AreEqual(result.State, 0);
-        //    Assert.AreEqual(result.data.Length, 2);
-        //    Assert.AreEqual(result.data[0], 2);
-        //    Assert.AreEqual(result.data[1], 3);
+            source = new int[]{1,2};
+            result = ResultExtends.GetArrayResult(source, i=>i+1);
+            Assert.AreEqual(result.State, 0);
+            Assert.AreEqual(result.Data.Length, 2);
+            Assert.AreEqual(result.Data[0], 2);
+            Assert.AreEqual(result.Data[1], 3);
 
-        //    result = ResultExtends.GetArrayResult(source, i=>i+1, 1);
-        //    Assert.AreEqual(result.State, 0);
-        //    Assert.AreEqual(result.data.Length, 2);
-        //    Assert.AreEqual(result.data[0], 2);
-        //    Assert.AreEqual(result.data[1], 3);
+            result = ResultExtends.GetArrayResult(source, i=>i+1, 1);
+            Assert.AreEqual(result.State, 0);
+            Assert.AreEqual(result.Data.Length, 2);
+            Assert.AreEqual(result.Data[0], 2);
+            Assert.AreEqual(result.Data[1], 3);
 
-        //    source = default(int[]);    
-        //    result = ResultExtends.GetArrayResult(source, i=>i+1, 1);
-        //    Assert.AreEqual(result.State, 1);
-        //    Assert.AreEqual(result.data, default(int[]));
-        //}
+            source = default(int[]);    
+            result = ResultExtends.GetArrayResult(source, i=>i+1, 1);
+            Assert.AreEqual(result.State, 1);
+            Assert.AreEqual(result.Data, default(int[]));
+        }
         #endregion
     }
 }

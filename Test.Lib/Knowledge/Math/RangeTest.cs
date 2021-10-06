@@ -9,7 +9,9 @@ namespace Test.Lib
         [TestMethod]
         public void Test()
         {
-            Range<int> range = new Range<int>(3, 1);
+            Range<int> range = new Range<int>();
+
+            range = new Range<int>(3, 1);
             Assert.AreEqual(range.Min, 3);
             Assert.AreEqual(range.Max, 1);
 

@@ -20,7 +20,6 @@ namespace Lib.Server
         {
             if (LibServerStringExtends.EndsWithNamedPipeService(serviceType.Name)) return NetNamedPipeServiceHostBuilder.Instance;
             if (LibServerStringExtends.EndsWithTcpService(serviceType.Name)) return NetTcpServiceHostBuilder.Instance;
-            if (LibServerStringExtends.EndsWithJsonService(serviceType.Name)) return JsonServiceHostBuilder.Instance;
             return WebHttpServiceHostBuilder.Instance;
         }
         private ServiceHost GetServiceHost(Type serviceType, Type contractType)
@@ -34,7 +33,6 @@ namespace Lib.Server
             //注册完服务之后，Builder实例就没用了，释放。
             NetNamedPipeServiceHostBuilder.UnsetInstance();
             NetTcpServiceHostBuilder.UnsetInstance();
-            JsonServiceHostBuilder.UnsetInstance();
             WebHttpServiceHostBuilder.UnsetInstance();
             foreach (ServiceHost serviceHost in serviceHosts)
             {

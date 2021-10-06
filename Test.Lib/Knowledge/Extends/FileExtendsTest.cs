@@ -11,6 +11,7 @@ namespace Test.Lib
         public void Test()
         {
             string fileName = "FileExtendsTest/test";
+            string fileName2 = "FileExtendsTest/test2";
             DirectoryExtends.DeleteIfExists("FileExtendsTest");
             FileExtends.EnsureDirectoryExist(fileName);
             Assert.IsTrue(Directory.Exists("FileExtendsTest"));
@@ -25,6 +26,11 @@ namespace Test.Lib
                 "0",
                 "1"
             });
+
+            #region 需要管理员权限
+            //FileExtends.SetUsersFullControl(fileName);
+            #endregion
+
             lines = FileExtends.ReadLines(fileName);
             Assert.AreEqual(lines.Length, 2);
             Assert.AreEqual(lines[0], "0");
@@ -85,6 +91,14 @@ namespace Test.Lib
             FileExtends.ReadBytes(fileName, 4, 1, out length, out bytes);
             Assert.AreEqual(length, 3);
             Assert.AreEqual(bytes.Length, 0);
+
+            FileExtends.Move(fileName, fileName2);
+            Assert.IsFalse(File.Exists(fileName));
+            Assert.IsTrue(File.Exists(fileName2));
+
+            FileExtends.SafeMove(fileName2, fileName);
+            Assert.IsFalse(File.Exists(fileName2));
+            Assert.IsTrue(File.Exists(fileName));
 
             DirectoryExtends.DeleteIfExists("FileExtendsTest");
             Assert.IsFalse(Directory.Exists("FileExtendsTest"));

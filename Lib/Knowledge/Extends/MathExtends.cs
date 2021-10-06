@@ -44,6 +44,11 @@ namespace Lib
         {
             return Min(Max(t, min), max);
         }
+        public static T Clip<T>(T t, Range<T> range)
+            where T : IComparable<T>
+        {
+            return Clip(t, range.Min, range.Max);
+        }
         #endregion
         #region InRange
         //在开区间
@@ -159,6 +164,10 @@ namespace Lib
             #endregion
             double result = Math.IEEERemainder(x - mid, period) + mid;
             return result == max ? min : result;
+        }
+        public static double IEEERemainder(double x, Range<double> range)
+        {
+            return IEEERemainder(x, range.Min, range.Max);
         }
         public static double IEEERemainderPositive(double x, double period)
         {

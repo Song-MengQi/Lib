@@ -1,6 +1,6 @@
-﻿using Lib;
+﻿using System;
+using Lib;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
 namespace Test.Lib
 {
@@ -36,9 +36,10 @@ namespace Test.Lib
         [TestMethod]
         public void TestClip()
         {
-            Assert.AreEqual(MathExtends.Clip(0, 10, 20), 10);
-            Assert.AreEqual(MathExtends.Clip(15, 10, 20), 15);
-            Assert.AreEqual(MathExtends.Clip(30, 10, 20), 20);
+            Range<int> range = new Range<int>(10, 20);
+            Assert.AreEqual(MathExtends.Clip(0, range), 10);
+            Assert.AreEqual(MathExtends.Clip(15, range), 15);
+            Assert.AreEqual(MathExtends.Clip(30, range), 20);
         }
         #endregion
         #region InRange
@@ -193,12 +194,13 @@ namespace Test.Lib
         [TestMethod]
         public void TestIEEERemainder()
         {
-            Assert.AreEqual(MathExtends.IEEERemainder(-181d, -180d, 180d), 179d);
-            Assert.AreEqual(MathExtends.IEEERemainder(-180d, -180d, 180d), -180d);
-            Assert.AreEqual(MathExtends.IEEERemainder(-179d, -180d, 180d), -179d);
-            Assert.AreEqual(MathExtends.IEEERemainder(179d, -180d, 180d), 179d);
-            Assert.AreEqual(MathExtends.IEEERemainder(180d, -180d, 180d), -180d);
-            Assert.AreEqual(MathExtends.IEEERemainder(181d, -180d, 180d), -179d);
+            Range<double> range = new Range<double>(-180d, 180d);
+            Assert.AreEqual(MathExtends.IEEERemainder(-181d, range), 179d);
+            Assert.AreEqual(MathExtends.IEEERemainder(-180d, range), -180d);
+            Assert.AreEqual(MathExtends.IEEERemainder(-179d, range), -179d);
+            Assert.AreEqual(MathExtends.IEEERemainder(179d, range), 179d);
+            Assert.AreEqual(MathExtends.IEEERemainder(180d, range), -180d);
+            Assert.AreEqual(MathExtends.IEEERemainder(181d, range), -179d);
         }
         [TestMethod]
         public void TestIEEERemainderPositive()

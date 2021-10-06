@@ -14,19 +14,16 @@ namespace Lib
             return b ? state : ResultState.Success;
         }
         public static int Check<T>(T t, int state)
-            where T : class
         {
             return CheckObject<T>(t, state);
         }
         public static int CheckObject<T>(T t, int state)
-            where T : class
         {
-            return CheckNot(default(T) == t, state);
+            return CheckNot(ObjectExtends.EqualsDefault(t), state);
         }
         public static int CheckObjects<T>(T[] ts, int state)
-            where T : class
         {
-            return CheckNot(default(T[]) == ts || ts.Any(t => default(T) == t), state);
+            return CheckNot(default(T[]) == ts || ts.Any(ObjectExtends.EqualsDefault), state);
         }
         public static int CheckString(string str, Func<string, bool> func, int state)
         {

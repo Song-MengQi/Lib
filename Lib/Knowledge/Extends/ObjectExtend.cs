@@ -5,7 +5,7 @@ namespace Lib
 {
     public static class ObjectExtend
     {
-        private static object InvokeMethod(this object obj, string name, params object[] parameters)
+        public static object InvokeMethod(this object obj, string name, params object[] parameters)
         {
             return obj.GetType().GetMethod(name, BindingFlags.Instance, parameters).Invoke(obj, parameters);
         }

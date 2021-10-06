@@ -6,7 +6,7 @@ namespace Test.Lib
     [TestClass]
     public abstract class LogTestBase<T, IT> : NewTestBase<T, IT>
         where T : LogBase, IT, new()
-        where IT : class, ILog
+        where IT : ILog
     {
         public virtual void TestAppend()
         {

@@ -5,6 +5,7 @@ namespace Lib
 {
     public static class BitConverterExtends
     {
+        #region 无效
         //private static object To(byte[] bytes, Type type)
         //{
         //    if (typeof(bool) == type) return BitConverter.ToBoolean(bytes, 0);
@@ -27,7 +28,7 @@ namespace Lib
         //{
         //    return (T)To(bytes, typeof(T));
         //}
-        //以上写法无效
+        #endregion
         #region BigEndian & LittleEndian
         private static byte[] EnsureEndian(byte[] bytes, bool isLittleEndian)
         {

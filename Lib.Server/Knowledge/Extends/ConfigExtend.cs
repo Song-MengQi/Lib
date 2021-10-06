@@ -49,12 +49,6 @@ namespace Lib.Server
                 ? config.PathDic[contractType.FullName]
                 : string.Format("api/{0}/{1}", LibServerStringExtends.GetNamespace(contractType), LibServerStringExtends.GetWebHttpNameInUrl(contractType.Name));
         }
-        public static string GetJsonPath(this Config config, Type contractType)
-        {
-            return config.PathDic.Contains(contractType.FullName)
-                ? config.PathDic[contractType.FullName]
-                : string.Format("api/{0}/{1}", LibServerStringExtends.GetNamespace(contractType), LibServerStringExtends.GetJsonNameInUrl(contractType.Name));
-        }
         #endregion
 
         #region GetAddress
@@ -71,10 +65,6 @@ namespace Lib.Server
         {
             return LibServerStringExtends.GetAddress("http", host, GetWebHttpPort(config, contractType), GetWebHttpPath(config, contractType));
         }
-        private static string GetJsonAddress(this Config config, string host, Type contractType)
-        {
-            return LibServerStringExtends.GetAddress("http", host, GetWebHttpPort(config, contractType), GetJsonPath(config, contractType));
-        }
 
         public static string GetServerNetTcpAddress(this Config config, Type contractType)
         {
@@ -84,10 +74,6 @@ namespace Lib.Server
         {
             return GetWebHttpAddress(config, Localhost, contractType);
         }
-        public static string GetServerJsonAddress(this Config config, Type contractType)
-        {
-            return GetJsonAddress(config, Localhost, contractType);
-        }
 
         public static string GetClientNetTcpAddress(this Config config, Type contractType, bool isExtranet = false)
         {
@@ -96,10 +82,6 @@ namespace Lib.Server
         public static string GetClientWebHttpAddress(this Config config, Type contractType, bool isExtranet = false)
         {
             return GetWebHttpAddress(config, GetServerHost(config, contractType.Namespace, isExtranet), contractType);
-        }
-        public static string GetClientJsonAddress(this Config config, Type contractType, bool isExtranet = false)
-        {
-            return GetJsonAddress(config, GetServerHost(config, contractType.Namespace, isExtranet), contractType);
         }
         #endregion
     }

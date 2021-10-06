@@ -35,7 +35,6 @@ namespace Lib.UI
     }
     public abstract class NotifyPropertyChangedBase<T, IT> : NotifyPropertyChangedBase
         where T : NotifyPropertyChangedBase<T, IT>, IT, new()
-        where IT : class
     {
         public string Key { get { return IoCManager<IT>.GetKey(this as T); } }
 

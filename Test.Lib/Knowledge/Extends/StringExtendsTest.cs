@@ -409,7 +409,8 @@ namespace Test.Lib
             Assert.AreEqual("userId=123&tel=abc", StringExtends.ToQueryString(new Dictionary<string, object> {{"userId", 123},{"tel","abc"}}));
             Assert.AreEqual("userId=123&tel=abc", StringExtends.ToQueryString(new ListDictionary{ {"userId", 123 }, {"tel", "abc" } }));
             Assert.AreEqual("userId=123&tel=abc", StringExtends.ToQueryString(new string[]{"userId","tel"}, new object[]{123, "abc"}));
-            Assert.AreEqual("url?a", StringExtends.ToQueryString("url","a"));
+            Assert.AreEqual("url", StringExtends.ToQueryString("url", ""));
+            Assert.AreEqual("url?a", StringExtends.ToQueryString("url", "a"));
             Assert.AreEqual("url?a&bb", StringExtends.ToQueryString("url", new string[] { "a", "bb" }));
             Assert.AreEqual("url?userId=123&tel=abc", StringExtends.ToQueryString("url", new Dictionary<string, object> {{"userId", 123},{"tel","abc"}}));
             Assert.AreEqual("url?userId=123&tel=abc", StringExtends.ToQueryString("url", new ListDictionary{ {"userId", 123 }, {"tel", "abc" }}));

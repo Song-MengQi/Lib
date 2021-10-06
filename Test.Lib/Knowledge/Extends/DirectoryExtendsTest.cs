@@ -1,6 +1,6 @@
-﻿using Lib;
+﻿using System.IO;
+using Lib;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
 
 namespace Test.Lib
 {
@@ -13,6 +13,11 @@ namespace Test.Lib
             string str1 = "asdfasdf";
             string str2 = "asdas";
             Directory.CreateDirectory("A");
+            
+            #region 需要管理员权限
+            //DirectoryExtends.SetUsersFullControl("A");
+            #endregion
+
             File.WriteAllText("A/1.txt", str1);
             Directory.CreateDirectory("A/AA");
             File.WriteAllText("A/AA/2.txt", str2);
@@ -33,8 +38,12 @@ namespace Test.Lib
             Assert.IsFalse(Directory.Exists("A"));
             Assert.IsTrue(Directory.Exists("B"));
 
-            DirectoryExtends.DeleteIfExists("B");
+            DirectoryExtends.SafeMove("B", "A");
             Assert.IsFalse(Directory.Exists("B"));
+            Assert.IsTrue(Directory.Exists("A"));
+
+            DirectoryExtends.DeleteIfExists("A");
+            Assert.IsFalse(Directory.Exists("A"));
         }
     }
 }

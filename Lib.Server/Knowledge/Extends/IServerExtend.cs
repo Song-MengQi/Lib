@@ -17,7 +17,6 @@ namespace Lib.Server
         }
         public static void Register<TService, ITService>(this IServer server)
             where TService : ITService, new()
-            where ITService : class
         {
             server.ServiceTypeDic.Add(typeof(TService), typeof(ITService));
             IoC<ITService>.SetInstance<TService>();

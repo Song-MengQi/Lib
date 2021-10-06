@@ -8,6 +8,13 @@ namespace Test.Lib
     public abstract class DictionaryTreeTestBase<T> : TestBase<T>
         where T : DictionaryTreeBase<T, string, string>
     {
+        private readonly Lazy<T> emptyLazy;
+        protected T EmptyInstance { get { return emptyLazy.Value; } }
+        protected DictionaryTreeTestBase() : base()
+        {
+            emptyLazy = new Lazy<T>(CreateEmptyInstance);
+        }
+        protected abstract T CreateEmptyInstance();
         protected Func<string, Dictionary<string, string>>[] getTestData()
         {
             return new Func<string,Dictionary<string,string>>[]{
@@ -61,21 +68,29 @@ namespace Test.Lib
         }
         public virtual void TestCount()
         {
+            Assert.AreEqual(0, EmptyInstance.Count);
+
             Assert.AreEqual(2, Instance.Count);
         }
         public virtual void TestContainsKey()
         {
+            Assert.IsFalse(EmptyInstance.ContainsKey("CN"));
+
             Assert.IsTrue(Instance.ContainsKey("CN"));
             Assert.IsFalse(Instance.ContainsKey("EN"));
         }
 
         public virtual void TestGetChildValue()
         {
+            Assert.AreEqual(default(string), EmptyInstance.GetChildValue("CN"));
+
             Assert.AreEqual("中国", Instance.GetChildValue("CN"));
             Assert.AreEqual(default(string), Instance.GetChildValue("EN"));
         }
         public virtual void TestGetChildrenValueDic()
         {
+            Assert.AreEqual(default(Dictionary<string, string>), EmptyInstance.GetChildrenValueDic());
+
             Dictionary<string, string> dic = Instance.GetChildrenValueDic();
             Assert.IsNotNull(dic);
             Assert.AreEqual(2, dic.Count);
@@ -84,12 +99,16 @@ namespace Test.Lib
 
         public virtual void TestGetChildrenValues()
         {
+            Assert.AreEqual(default(string[]), EmptyInstance.GetChildrenValues());
+
             string[] values = Instance.GetChildrenValues();
             Assert.IsNotNull(values);
             Assert.AreEqual(2, values.Length);
         }
         public virtual void TestGetChild()
         {
+            Assert.AreEqual(default(T), EmptyInstance.GetChild("CN"));
+
             T child;
             child = Instance.GetChild("EN");
             Assert.IsNull(child);
@@ -101,6 +120,8 @@ namespace Test.Lib
         }
         public virtual void TestGetChildren()
         {
+            Assert.AreEqual(default(T[]), EmptyInstance.GetChildren());
+
             T[] childrenTrees;
             childrenTrees = Instance.GetChildren();
             Assert.IsNotNull(childrenTrees);

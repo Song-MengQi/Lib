@@ -3,7 +3,7 @@
     public class Result
     {
         public int State { get; set; }
-        public Result() : this(0) { }
+        public Result() : this(ResultState.Success) { }
         public Result(int state)
         {
             State = state;
@@ -12,7 +12,7 @@
     public class Result<T> : Result
     {
         public T Data { get; set; }
-        public Result() : this(0) { }
+        public Result() : this(ResultState.Success) { }
         public Result(int state) : base(state)
         {
             Data = default(T);

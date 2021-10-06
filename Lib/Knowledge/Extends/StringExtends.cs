@@ -277,7 +277,7 @@ namespace Lib
         }
         public static string ToQueryString(string url, string queryString)
         {
-            return url + "?" + queryString;
+            return string.IsNullOrEmpty(queryString) ? url : url + "?" + queryString;
         }
         public static string ToQueryString(string url, IEnumerable<string> strs)
         {

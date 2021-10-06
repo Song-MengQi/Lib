@@ -5,7 +5,6 @@ namespace Test.Lib
 {
     public abstract class DictionaryTreeMockBase<T, TKey, TValue> : MockBase, IDictionaryTree<T, TKey, TValue>
         where T : DictionaryTreeMockBase<T, TKey, TValue>
-        where TValue : class
     {
         public TValue Value
         {

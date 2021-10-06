@@ -101,9 +101,8 @@ namespace Lib
             AddIf(dic, key, value, func, v=>v);
         }
         public static void AddIf<T>(this IDictionary dic, object key, T value)
-            where T:class
         {
-            AddIf(dic, key, value, v=>default(T)!=v);
+            AddIf(dic, key, value, v=>false==ObjectExtends.EqualsDefault(v));
         }
         public static void AddIfNotEmpty(this IDictionary dic, object key, string value)
         {
