@@ -11,8 +11,9 @@ namespace Test.Lib
         public void TestCMDInteract()
         {
             string str = "A";
-            string result = ProcessExtends.CMDInteract(string.Join(" ", "echo", str), TimeSpan.FromSeconds(0.1), s=>s.Contains(str));
-            Assert.AreEqual(str, result);
+            string cmd = string.Join(" ", "echo", str);
+            Assert.AreEqual(ProcessExtends.CMDInteract(cmd, TimeSpan.FromSeconds(0.1), s=>s.Contains(str)), str);
+            Assert.AreEqual(ProcessExtends.CMDInteract(cmd, TimeSpan.FromSeconds(0.1), s=>false), default(string));
         }
     }
 }
