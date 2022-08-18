@@ -4,11 +4,7 @@ namespace Lib
 {
     public sealed class SerialQueue : SerialQueueBase
     {
-        private readonly ConcurrentQueue<IRunnable> queue;
-        public SerialQueue() : base()
-        {
-            queue = new ConcurrentQueue<IRunnable>();
-        }
+        private readonly ConcurrentQueue<IRunnable> queue = new ConcurrentQueue<IRunnable>();
         public override bool IsEmpty { get { return false == IsRunning && queue.IsEmpty; } }
         public override void Clear() { queue.Clear(); }
         public override void Assign(IRunnable runnable)

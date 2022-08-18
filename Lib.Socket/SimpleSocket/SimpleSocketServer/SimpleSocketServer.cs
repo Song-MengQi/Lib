@@ -6,7 +6,7 @@ namespace Lib.Socket
     public partial class SimpleSocketServer : SimpleSocketBase, ISimpleSocketServer
     {
         private System.Net.Sockets.Socket serverSocket = default(System.Net.Sockets.Socket);
-        public SimpleSocketServer(string ip, int port) : base(ip, port) { }
+        public SimpleSocketServer(string ip, ushort port) : base(ip, port) { }
         #region Dispose
         protected override void Dispose(bool disposing)
         {

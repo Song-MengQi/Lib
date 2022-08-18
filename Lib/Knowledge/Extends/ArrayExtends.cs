@@ -5,6 +5,7 @@ namespace Lib
 {
     public static class ArrayExtends
     {
+        public static T[] Create<T>(params T[] array) { return array; }
         public static bool IsNullOrEmpty<T>(T[] array)
         {
             return default(T[]) == array || 0 == array.Length;
@@ -79,6 +80,15 @@ namespace Lib
             {
                 array[i] = value;
             }
+        }
+
+        public static int[] FindAllIndexs<T>(T[] array, Func<T, bool> func)
+        {
+            List<int> list = new List<int>();
+            array.Foreach((t, index)=>{
+                if (func(t)) list.Add(index);
+            });
+            return list.ToArray();
         }
     }
 }

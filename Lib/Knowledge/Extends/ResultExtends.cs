@@ -305,5 +305,15 @@ namespace Lib
             return new Result<TResult[]>(sources.Select(func).ToArray());
         }
         #endregion
+
+        public static Result Create() { return new Result(); }
+        public static Result<T> Create<T>(T t) { return new Result<T>(t); }
+        public static Result<Tuple<T1, T2>> Create<T1, T2>(T1 t1, T2 t2) { return Create(Tuple.Create(t1, t2)); }
+        public static Result<Tuple<T1, T2, T3>> Create<T1, T2, T3>(T1 t1, T2 t2, T3 t3) { return Create(Tuple.Create(t1, t2, t3)); }
+        public static Result<Tuple<T1, T2, T3, T4>> Create<T1, T2, T3, T4>(T1 t1, T2 t2, T3 t3, T4 t4) { return Create(Tuple.Create(t1, t2, t3, t4)); }
+        public static Result<Tuple<T1, T2, T3, T4, T5>> Create<T1, T2, T3, T4, T5>(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5) { return Create(Tuple.Create(t1, t2, t3, t4, t5)); }
+        public static Result<Tuple<T1, T2, T3, T4, T5, T6>> Create<T1, T2, T3, T4, T5, T6>(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6) { return Create(Tuple.Create(t1, t2, t3, t4, t5, t6)); }
+        public static Result<Tuple<T1, T2, T3, T4, T5, T6, T7>> Create<T1, T2, T3, T4, T5, T6, T7>(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7) { return Create(Tuple.Create(t1, t2, t3, t4, t5, t6, t7)); }
+        public static Result<Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8>>> Create<T1, T2, T3, T4, T5, T6, T7, T8>(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8) { return Create(Tuple.Create(t1, t2, t3, t4, t5, t6, t7, t8)); }
     }
 }

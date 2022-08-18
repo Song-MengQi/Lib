@@ -64,6 +64,7 @@ namespace Test.Lib
             isRunning = false;
 
             serialInteraction.Dispose();
+            autoResetEvent.Dispose();
         }
     }
 }

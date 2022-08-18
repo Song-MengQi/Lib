@@ -5,7 +5,7 @@
     {
         void Pause();
         void Continue();
-        //Wait For Continue
-        void Wait();
+        //Wait For Run
+        void WaitForRun();
     }
 }

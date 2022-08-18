@@ -1,4 +1,6 @@
-﻿namespace Lib
+﻿using System;
+
+namespace Lib
 {
     public static class BitExtends
     {
@@ -35,17 +37,56 @@
             if (index < 0 || index >= (bytes.Length << 3)) return;
             UnsetBit(ref bytes[GetMasterIndex(index)], GetSlaveIndex(index));
         }
-        public static int GetHexLength(int count)
+        private static int GetBitLength(ulong count, Func<ulong, ulong> func)
         {
-            //count是点表里点位的数量，hexLength是十六进制的位数
+            //count是信号的数量
             if (count > 1) --count;
-            int hexLength = 0;
+            int length = 0;//位数
             while (count > 0)
             {
-                count >>= 4;
-                ++hexLength;
+                count = func(count);
+                //count /= baseCount;
+                ++length;
             }
-            return hexLength;
+            return length;
         }
+        public static int GetBitLength(ulong count, ulong baseCount)
+        {
+            return GetBitLength(count, c=>c/baseCount);
+        }
+        public static int GetHexLength(ulong count)
+        {
+            return GetBitLength(count, c=>c>>4);
+        }
+        #region 小端数字
+        public static void SetDigit(byte[] bytes, long d, params ushort[] bits)
+        {
+            int length = Math.Min(sizeof(long) << 3, bits.Length);
+            for(int i = 0; i < length; ++i)
+            {
+                if (1 == (d & 1)) SetBit(bytes, bits[i]);
+                else UnsetBit(bytes, bits[i]);
+                d >>= 1;
+            }
+        }
+        public static long GetDigit(byte[] bytes, params ushort[] bits)
+        {
+            long d = 0;
+            int length = Math.Min(sizeof(long) << 3, bits.Length);
+            for (int i = 0; i < length; ++i)
+            {
+                if (GetBit(bytes, bits[i])) d |= (1L << i);
+            }
+            return d;
+        }
+        public static void SetDigit<TDigit>(byte[] bytes, TDigit d, params ushort[] bits)
+        {
+            SetDigit(bytes, Convert.ToInt64(d), bits);
+        }
+        public static TDigit GetDigit<TDigit>(byte[] bytes, params ushort[] bits)
+        {
+            return ConvertExtends.ChangeType<TDigit>(GetDigit(bytes, bits));
+        }
+        #endregion
     }
 }

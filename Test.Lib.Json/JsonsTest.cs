@@ -21,31 +21,31 @@ namespace Test.Lib.Json
             };
             JsonsTestClass result;
 
-            string json = Jsons.Serialize(jtc);
+            string json = JsonExtends.Serialize(jtc);
 
-            result = Jsons.Deserialize<JsonsTestClass>(json);
+            result = JsonExtends.Deserialize<JsonsTestClass>(json);
             Assert.IsNotNull(result);
             Assert.AreEqual(jtc.X, result.X);
             Assert.AreEqual(jtc.Y, result.Y);
 
-            result = (JsonsTestClass)Jsons.Deserialize(json, typeof(JsonsTestClass));
+            result = (JsonsTestClass)JsonExtends.Deserialize(json, typeof(JsonsTestClass));
             Assert.IsNotNull(result);
             Assert.AreEqual(jtc.X, result.X);
             Assert.AreEqual(jtc.Y, result.Y);
 
-            result = Jsons.TryDeserialize<JsonsTestClass>(json);
+            result = JsonExtends.TryDeserialize<JsonsTestClass>(json);
             Assert.IsNotNull(result);
             Assert.AreEqual(jtc.X, result.X);
             Assert.AreEqual(jtc.Y, result.Y);
 
-            Assert.IsTrue(Jsons.TryDeserialize(json, out result));
+            Assert.IsTrue(JsonExtends.TryDeserialize(json, out result));
             Assert.IsNotNull(result);
             Assert.AreEqual(jtc.X, result.X);
             Assert.AreEqual(jtc.Y, result.Y);
 
-            Assert.IsNull(Jsons.TryDeserialize<JsonsTestClass>(default(string)));
+            Assert.IsNull(JsonExtends.TryDeserialize<JsonsTestClass>(default(string)));
 
-            Assert.IsFalse(Jsons.TryDeserialize(default(string), out result));
+            Assert.IsFalse(JsonExtends.TryDeserialize(default(string), out result));
             Assert.IsNull(result);
         }
         [TestMethod]
@@ -57,32 +57,32 @@ namespace Test.Lib.Json
             };
             JsonsTestClass result;
 
-            result = Jsons.Convert<JsonsTestClass>(ld);
+            result = JsonExtends.Convert<JsonsTestClass>(ld);
             Assert.IsNotNull(result);
             Assert.AreEqual(result.X, ld["X"]);
             Assert.AreEqual(result.Y, ld["Y"]);
 
-            result = (JsonsTestClass)Jsons.Convert(ld, typeof(JsonsTestClass));
+            result = (JsonsTestClass)JsonExtends.Convert(ld, typeof(JsonsTestClass));
             Assert.IsNotNull(result);
             Assert.AreEqual(result.X, ld["X"]);
             Assert.AreEqual(result.Y, ld["Y"]);
 
-            result = Jsons.TryConvert<JsonsTestClass>(ld);
+            result = JsonExtends.TryConvert<JsonsTestClass>(ld);
             Assert.IsNotNull(result);
             Assert.AreEqual(result.X, ld["X"]);
             Assert.AreEqual(result.Y, ld["Y"]);
 
-            Assert.IsTrue(Jsons.TryConvert(ld, out result));
+            Assert.IsTrue(JsonExtends.TryConvert(ld, out result));
             Assert.IsNotNull(result);
             Assert.AreEqual(result.X, ld["X"]);
             Assert.AreEqual(result.Y, ld["Y"]);
 
             //注意::null转过来还是null，这种情况认为操作成功
-            result = Jsons.TryConvert<JsonsTestClass>(default(object));
+            result = JsonExtends.TryConvert<JsonsTestClass>(default(object));
             Assert.IsNull(result);
 
             //注意::null转过来还是null，这种情况认为操作成功
-            Assert.IsTrue(Jsons.TryConvert(default(object), out result));
+            Assert.IsTrue(JsonExtends.TryConvert(default(object), out result));
             Assert.IsNull(result);
         }
         [TestMethod]
@@ -92,7 +92,7 @@ namespace Test.Lib.Json
                 X = 1,
                 Y = "2"
             };
-            JsonsTestClass result = Jsons.Clone(jtc);
+            JsonsTestClass result = JsonExtends.Clone(jtc);
             Assert.IsNotNull(result);
             Assert.AreNotEqual(result, jtc);
             Assert.AreEqual(jtc.X, result.X);

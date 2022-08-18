@@ -6,7 +6,21 @@ namespace Lib
 {
     public static class TypeExtends
     {
-        public static Type[] GetTypes(Assembly[] assemblies) { return assemblies.SelectMany(assembly => assembly.GetTypes()).ToArray(); }
+        //public static Type[] GetTypes(Assembly[] assemblies) { return assemblies.SelectMany(assembly => assembly.GetTypes()).ToArray(); }
+        //【ReflectionTypeLoadException】
+        public static Type[] GetTypes(Assembly[] assemblies)
+        {
+            return assemblies
+                .SelectMany(assembly=>{
+                    try { return assembly.GetTypes(); }
+                    catch (ReflectionTypeLoadException reflectionTypeLoadException)
+                    {
+                        return reflectionTypeLoadException.Types.Where(ObjectExtends.NotEqualsDefault).ToArray();
+                    }
+                    catch { throw; }
+                })
+                .ToArray();
+        }
         public static Type FindTypeByName(string name, Type[] types)
         {
             if (name.Contains(",")) return Type.ReflectionOnlyGetType(name, true, false);
@@ -36,10 +50,6 @@ namespace Lib
         public static bool IsAssignable(Type[] froms, Type[] tos)
         {
             return froms.Length == tos.Length && tos.All((to, index) => IsAssignable(froms[index], to));
-        }
-        public static T ChangeType<T>(object obj)
-        {
-            return (T)Convert.ChangeType(obj, typeof(T));
         }
     }
 }

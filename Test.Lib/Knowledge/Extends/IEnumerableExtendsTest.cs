@@ -1,16 +1,21 @@
 ﻿using Lib;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Test.Lib
 {
     [TestClass]
-    public class IEnumerableExtendsTest : TestBase
+    public partial class IEnumerableExtendsTest : TestBase
     {
         [TestMethod]
         public void TestIsNullOrEmpty()
         {
+            Assert.IsTrue(IEnumerableExtends.IsNullOrEmpty(default(Array)));
+            Assert.IsFalse(IEnumerableExtends.IsNullOrEmpty(new int[] { 1 } as IEnumerable));
+
             Assert.IsTrue(IEnumerableExtends.IsNullOrEmpty(default(string[])));
             Assert.IsTrue(IEnumerableExtends.IsNullOrEmpty(new string[0]));
             Assert.IsFalse(IEnumerableExtends.IsNullOrEmpty(new int[] { 1 }));
@@ -27,9 +32,22 @@ namespace Test.Lib
         {
             int[][] intss = new int[][]{
                 new int[] { 1, 2 },
-                new int[] {2, 3 }
+                new int[] { 2, 3 }
             };
             int[] result = IEnumerableExtends.Concat(intss).ToArray();
+            Assert.AreEqual(result.Length, 4);
+            Assert.AreEqual(result[0], 1);
+            Assert.AreEqual(result[1], 2);
+            Assert.AreEqual(result[2], 2);
+            Assert.AreEqual(result[3], 3);
+        }
+        [TestMethod]
+        public void TestConcatParams()
+        {
+            int[] result = IEnumerableExtends.ConcatParams(
+                new int[] { 1, 2 },
+                new int[] { 2, 3 }
+                ).ToArray();
             Assert.AreEqual(result.Length, 4);
             Assert.AreEqual(result[0], 1);
             Assert.AreEqual(result[1], 2);
@@ -88,6 +106,14 @@ namespace Test.Lib
             Assert.IsFalse(IEnumerableExtends.SequenceEqual(strs1, default(string[]), testEqualityComparer));
             Assert.IsTrue(IEnumerableExtends.SequenceEqual(default(string[]), default(string[]), testEqualityComparer));
             Assert.IsTrue(IEnumerableExtends.SequenceEqual(strs1, strs1, testEqualityComparer));
+        }
+        [TestMethod]
+        public void TestFor()
+        {
+            int from = 1;
+            int to = 2;
+            int[] ints = IEnumerableExtends.For(from, to, i=>i);
+            Assert.AreEqual(ints.Length, to - from);
         }
     }
 }

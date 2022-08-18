@@ -2,6 +2,5 @@
 {
     public interface ILog
     {
-        void Append(string log);
     }
 }

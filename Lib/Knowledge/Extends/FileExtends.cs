@@ -1,14 +1,20 @@
 ﻿using System.IO;
 using System.Security.AccessControl;
-using System.Text;
 
 namespace Lib
 {
     public static class FileExtends
     {
+        public static void EnsureNotExist(string fileName)
+        {
+            if (File.Exists(fileName)) File.Delete(fileName);
+        }
+        //public static void EnsureDirectoryExist(string fileName) { Directory.CreateDirectory(Path.GetDirectoryName(fileName)); }
+        public static void EnsureDirectoryExist(string fileName) { Directory.GetParent(fileName).Create(); }
+
         public static byte[] ReadBytes(string fileName) { return File.ReadAllBytes(fileName); }
-        public static string ReadText(string fileName) { return File.ReadAllText(fileName, Encoding.UTF8); }
-        public static string[] ReadLines(string fileName) { return File.ReadAllLines(fileName, Encoding.UTF8); }
+        public static string ReadText(string fileName) { return File.ReadAllText(fileName, Encodings.UTF8); }
+        public static string[] ReadLines(string fileName) { return File.ReadAllLines(fileName, Encodings.UTF8); }
         public static void ReadBytes(string fileName, long offset, int length, out long fileLength, out byte[] content)
         {
             FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read/*, FileShare.Read, 1 << 16*/);
@@ -29,19 +35,16 @@ namespace Lib
             }
             fs.Close();
         }
-        //public static void EnsureDirectoryExist(string fileName) { Directory.CreateDirectory(Path.GetDirectoryName(fileName)); }
-        public static void EnsureDirectoryExist(string fileName) { Directory.GetParent(fileName).Create(); }
-
         public static void WriteText(string fileName, string str)
         {
             EnsureDirectoryExist(fileName);
-            File.WriteAllText(fileName, str, Encoding.UTF8);
+            File.WriteAllText(fileName, str, Encodings.UTF8);
         }
         public static void WriteLine(string fileName, string str) { WriteText(fileName, str + System.Environment.NewLine); }
         public static void WriteLines(string fileName, string[] strs)
         {
             EnsureDirectoryExist(fileName);
-            File.WriteAllLines(fileName, strs, Encoding.UTF8);
+            File.WriteAllLines(fileName, strs, Encodings.UTF8);
         }
         public static void WriteBytes(string fileName, byte[] bytes)
         {
@@ -57,7 +60,7 @@ namespace Lib
         public static void AppendLines(string fileName, string[] strs)
         {
             EnsureDirectoryExist(fileName);
-            File.AppendAllLines(fileName, strs, Encoding.UTF8);
+            File.AppendAllLines(fileName, strs, Encodings.UTF8);
         }
         public static void AppendBytes(string fileName, byte[] bytes)
         {
@@ -69,12 +72,14 @@ namespace Lib
         public static void Copy(string sourceFileName, string destFileName)
         {
             if (false == File.Exists(sourceFileName)) throw new FileNotFoundException();
+            if (Path.GetFullPath(sourceFileName) == Path.GetFullPath(destFileName)) return;
             EnsureDirectoryExist(destFileName);
             File.Copy(sourceFileName, destFileName, true);
         }
         public static void Move(string sourceFileName, string destFileName)
         {
             if (false == File.Exists(sourceFileName)) throw new FileNotFoundException();
+            if (Path.GetFullPath(sourceFileName) == Path.GetFullPath(destFileName)) return;
             if (File.Exists(destFileName)) File.Delete(destFileName);
             EnsureDirectoryExist(destFileName);
             File.Move(sourceFileName, destFileName);

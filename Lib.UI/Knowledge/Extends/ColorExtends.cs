@@ -13,38 +13,40 @@ namespace Lib.UI
             byte max = MathExtends.Max(rgb.R, rgb.G, rgb.B);
             byte min = MathExtends.Min(rgb.R, rgb.G, rgb.B);
             double s = (max + min) / 255d;
-            hsl.Lightness = s / 2;
+            hsl.L = s / 2;
             if (max == min)
             {
-                hsl.Hue = hsl.Saturation = 0d;
+                hsl.H = hsl.S = 0d;
             }
             else
             {
                 double diff = max - min;
-                hsl.Saturation = diff / 255d / (s > 1 ? (2 - s) : s);
-                if (max == rgb.R) hsl.Hue = (rgb.G - rgb.B) / diff + (rgb.G < rgb.B ? 6d : 0d);
-                else if (max == rgb.G) hsl.Hue = (rgb.B - rgb.R) / diff + 2d;
-                else if (max == rgb.B) hsl.Hue = (rgb.R - rgb.G) / diff + 4d;
-                hsl.Hue /= 6d;
+                hsl.S = diff / 255d / (s > 1 ? (2 - s) : s);
+                if (max == rgb.R) hsl.H = (rgb.G - rgb.B) / diff + (rgb.G < rgb.B ? 6d : 0d);
+                else if (max == rgb.G) hsl.H = (rgb.B - rgb.R) / diff + 2d;
+                else if (max == rgb.B) hsl.H = (rgb.R - rgb.G) / diff + 4d;
+                //hsl.H /= 6d;
+                hsl.H *= 60d;
             }
             return hsl;
         }
         public static RGB HSLToRGB(HSL hsl)
         {
+            double h = hsl.H/360d;
             RGB rgb = new RGB();
-            if (0d == hsl.Saturation)
+            if (0d == hsl.S)
             {
-                rgb.R = rgb.G = rgb.B = (byte)(hsl.Lightness * 255);
+                rgb.R = rgb.G = rgb.B = (byte)(hsl.L * 255);
             }
             else
             {
-                double q = hsl.Lightness < 0.5
-                    ? hsl.Lightness * (1 + hsl.Saturation)
-                    : (hsl.Lightness + hsl.Saturation - hsl.Lightness * hsl.Saturation);
-                double p = 2d * hsl.Lightness - q;
-                rgb.R = (byte)(HueToRGB(p, q, hsl.Hue + 1d / 3d) * 255);
-                rgb.G = (byte)(HueToRGB(p, q, hsl.Hue) * 255);
-                rgb.B = (byte)(HueToRGB(p, q, hsl.Hue - 1d / 3d) * 255);
+                double q = hsl.L < 0.5
+                    ? hsl.L * (1 + hsl.S)
+                    : (hsl.L + hsl.S - hsl.L * hsl.S);
+                double p = 2d * hsl.L - q;
+                rgb.R = (byte)(HueToRGB(p, q, h + 1d / 3d) * 255);
+                rgb.G = (byte)(HueToRGB(p, q, h) * 255);
+                rgb.B = (byte)(HueToRGB(p, q, h - 1d / 3d) * 255);
             }
             return rgb;
         }

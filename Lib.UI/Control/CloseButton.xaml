@@ -3,17 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:UI="clr-namespace:Lib.UI"
+             xmlns:local="clr-namespace:Lib.UI"
              mc:Ignorable="d" 
              d:DesignHeight="48" d:DesignWidth="48"
              Height="48" Width="48"
              Background="Transparent"
              MouseEnter="CloseButton_MouseEnter" MouseLeave="CloseButton_MouseLeave" Cursor="Hand">
-    <UI:Cross VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RenderTransformOrigin="0.5,0.5">
-        <UI:Cross.RenderTransform>
+    <local:Cross VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RenderTransformOrigin="0.5,0.5">
+        <local:Cross.RenderTransform>
             <TransformGroup>
                 <RotateTransform Angle="45"/>
             </TransformGroup>
-        </UI:Cross.RenderTransform>
-    </UI:Cross>
+        </local:Cross.RenderTransform>
+    </local:Cross>
 </UserControl>

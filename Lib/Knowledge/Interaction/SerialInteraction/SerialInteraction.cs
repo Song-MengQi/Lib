@@ -59,8 +59,8 @@ namespace Lib
             isAbort = false;
             return ResultExtends.GetResult(
                 ()=>SendFunc(internalRequest),
-                ()=>Checks.Check(autoResetEvent.WaitOne(duration), ResultState.Timeout),
-                ()=>Checks.CheckNot(isAbort, ResultState.Fail),
+                ()=>CheckExtends.Check(autoResetEvent.WaitOne(duration), ResultState.Timeout),
+                ()=>CheckExtends.CheckNot(isAbort, ResultState.Fail),
                 ()=>responseCache);
         }
 

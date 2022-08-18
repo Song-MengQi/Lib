@@ -9,9 +9,9 @@ namespace Lib.Client
     public static class HttpClientExtend
     {
         #region Get
-        public static async Task<HttpResponseMessage> GetAsync(this HttpClient httpClient, string uri, TimeSpan timeout)
+        public static Task<HttpResponseMessage> GetAsync(this HttpClient httpClient, string uri, TimeSpan timeout)
         {
-            return await httpClient.GetAsync(uri, new CancellationTokenSource(timeout).Token);
+            return CancellationTokenSourceExtends.InvokeAsync(timeout, token=>httpClient.GetAsync(uri, token));
         }
 
         public static async Task<byte[]> GetBytesAsync(this HttpClient httpClient, string uri, CancellationToken cancellationToken)
@@ -34,22 +34,22 @@ namespace Lib.Client
 
         public static async Task<TResponse> GetAsync<TResponse>(this HttpClient httpClient, string uri)
         {
-            return Jsons.TryDeserialize<TResponse>(await httpClient.GetStringAsync(uri));
+            return JsonExtends.TryDeserialize<TResponse>(await httpClient.GetStringAsync(uri));
         }
         public static async Task<TResponse> GetAsync<TResponse>(this HttpClient httpClient, string uri, CancellationToken cancellationToken)
         {
-            return Jsons.TryDeserialize<TResponse>(await httpClient.GetStringAsync(uri, cancellationToken));
+            return JsonExtends.TryDeserialize<TResponse>(await httpClient.GetStringAsync(uri, cancellationToken));
         }
         public static async Task<TResponse> GetAsync<TResponse>(this HttpClient httpClient, string uri, TimeSpan timeout)
         {
-            return Jsons.TryDeserialize<TResponse>(await httpClient.GetStringAsync(uri, timeout));
+            return JsonExtends.TryDeserialize<TResponse>(await httpClient.GetStringAsync(uri, timeout));
         }
         #endregion
         #region Post
         #region HttpContent => Any
-        public static async Task<HttpResponseMessage> PostAsync(this HttpClient httpClient, string uri, HttpContent httpContent, TimeSpan timeout)
+        public static Task<HttpResponseMessage> PostAsync(this HttpClient httpClient, string uri, HttpContent httpContent, TimeSpan timeout)
         {
-            return await httpClient.PostAsync(uri, httpContent, new CancellationTokenSource(timeout).Token);
+            return CancellationTokenSourceExtends.InvokeAsync(timeout, token=>httpClient.PostAsync(uri, httpContent, token));
         }
 
         public static async Task<string> PostAndReadStringAsync(this HttpClient httpClient, string uri, HttpContent httpContent)
@@ -80,29 +80,29 @@ namespace Lib.Client
 
         public static async Task<TResponse> PostAndReadAsync<TResponse>(this HttpClient httpClient, string uri, HttpContent httpContent)
         {
-            return Jsons.TryDeserialize<TResponse>(await httpClient.PostAndReadStringAsync(uri, httpContent));
+            return JsonExtends.TryDeserialize<TResponse>(await httpClient.PostAndReadStringAsync(uri, httpContent));
         }
         public static async Task<TResponse> PostAndReadAsync<TResponse>(this HttpClient httpClient, string uri, HttpContent httpContent, CancellationToken cancellationToken)
         {
-            return Jsons.TryDeserialize<TResponse>(await httpClient.PostAndReadStringAsync(uri, httpContent, cancellationToken));
+            return JsonExtends.TryDeserialize<TResponse>(await httpClient.PostAndReadStringAsync(uri, httpContent, cancellationToken));
         }
         public static async Task<TResponse> PostAndReadAsync<TResponse>(this HttpClient httpClient, string uri, HttpContent httpContent, TimeSpan timeout)
         {
-            return Jsons.TryDeserialize<TResponse>(await httpClient.PostAndReadStringAsync(uri, httpContent, timeout));
+            return JsonExtends.TryDeserialize<TResponse>(await httpClient.PostAndReadStringAsync(uri, httpContent, timeout));
         }
         #endregion
         #region string => Any
-        public static async Task<HttpResponseMessage> PostAsync(this HttpClient httpClient, string uri, string content)
+        public static Task<HttpResponseMessage> PostAsync(this HttpClient httpClient, string uri, string content)
         {
-            return await httpClient.PostAsync(uri, LibClientExtends.JsonToStringContent(content) as HttpContent);
+            return httpClient.PostAsync(uri, ClientExtends.JsonToStringContent(content) as HttpContent);
         }
-        public static async Task<HttpResponseMessage> PostAsync(this HttpClient httpClient, string uri, string content, CancellationToken cancellationToken)
+        public static Task<HttpResponseMessage> PostAsync(this HttpClient httpClient, string uri, string content, CancellationToken cancellationToken)
         {
-            return await httpClient.PostAsync(uri, LibClientExtends.JsonToStringContent(content) as HttpContent, cancellationToken);
+            return httpClient.PostAsync(uri, ClientExtends.JsonToStringContent(content) as HttpContent, cancellationToken);
         }
-        public static async Task<HttpResponseMessage> PostAsync(this HttpClient httpClient, string uri, string content, TimeSpan timeout)
+        public static Task<HttpResponseMessage> PostAsync(this HttpClient httpClient, string uri, string content, TimeSpan timeout)
         {
-            return await httpClient.PostAsync(uri, LibClientExtends.JsonToStringContent(content) as HttpContent, timeout);
+            return httpClient.PostAsync(uri, ClientExtends.JsonToStringContent(content) as HttpContent, timeout);
         }
 
         public static async Task<string> PostAndReadStringAsync(this HttpClient httpClient, string uri, string content)
@@ -133,29 +133,29 @@ namespace Lib.Client
 
         public static async Task<TResponse> PostAndReadAsync<TResponse>(this HttpClient httpClient, string uri, string content)
         {
-            return Jsons.TryDeserialize<TResponse>(await httpClient.PostAndReadStringAsync(uri, content));
+            return JsonExtends.TryDeserialize<TResponse>(await httpClient.PostAndReadStringAsync(uri, content));
         }
         public static async Task<TResponse> PostAndReadAsync<TResponse>(this HttpClient httpClient, string uri, string content, CancellationToken cancellationToken)
         {
-            return Jsons.TryDeserialize<TResponse>(await httpClient.PostAndReadStringAsync(uri, content, cancellationToken));
+            return JsonExtends.TryDeserialize<TResponse>(await httpClient.PostAndReadStringAsync(uri, content, cancellationToken));
         }
         public static async Task<TResponse> PostAndReadAsync<TResponse>(this HttpClient httpClient, string uri, string content, TimeSpan timeout)
         {
-            return Jsons.TryDeserialize<TResponse>(await httpClient.PostAndReadStringAsync(uri, content, timeout));
+            return JsonExtends.TryDeserialize<TResponse>(await httpClient.PostAndReadStringAsync(uri, content, timeout));
         }
         #endregion
         #region TRequest => Any
-        public static async Task<HttpResponseMessage> PostAsync<TRequest>(this HttpClient httpClient, string uri, TRequest request)
+        public static Task<HttpResponseMessage> PostAsync<TRequest>(this HttpClient httpClient, string uri, TRequest request)
         {
-            return await httpClient.PostAsync(uri, Jsons.Serialize(request));
+            return httpClient.PostAsync(uri, JsonExtends.Serialize(request));
         }
-        public static async Task<HttpResponseMessage> PostAsync<TRequest>(this HttpClient httpClient, string uri, TRequest request, CancellationToken cancellationToken)
+        public static Task<HttpResponseMessage> PostAsync<TRequest>(this HttpClient httpClient, string uri, TRequest request, CancellationToken cancellationToken)
         {
-            return await httpClient.PostAsync(uri, Jsons.Serialize(request), cancellationToken);
+            return httpClient.PostAsync(uri, JsonExtends.Serialize(request), cancellationToken);
         }
-        public static async Task<HttpResponseMessage> PostAsync<TRequest>(this HttpClient httpClient, string uri, TRequest request, TimeSpan timeout)
+        public static Task<HttpResponseMessage> PostAsync<TRequest>(this HttpClient httpClient, string uri, TRequest request, TimeSpan timeout)
         {
-            return await httpClient.PostAsync(uri, Jsons.Serialize(request), timeout);
+            return httpClient.PostAsync(uri, JsonExtends.Serialize(request), timeout);
         }
 
         public static async Task<string> PostAndReadStringAsync<TRequest>(this HttpClient httpClient, string uri, TRequest request)
@@ -186,22 +186,22 @@ namespace Lib.Client
 
         public static async Task<TResponse> PostAndReadAsync<TRequest, TResponse>(this HttpClient httpClient, string uri, TRequest request)
         {
-            return Jsons.TryDeserialize<TResponse>(await httpClient.PostAndReadStringAsync(uri, Jsons.Serialize(request)));
+            return JsonExtends.TryDeserialize<TResponse>(await httpClient.PostAndReadStringAsync(uri, JsonExtends.Serialize(request)));
         }
         public static async Task<TResponse> PostAndReadAsync<TRequest, TResponse>(this HttpClient httpClient, string uri, TRequest request, CancellationToken cancellationToken)
         {
-            return Jsons.TryDeserialize<TResponse>(await httpClient.PostAndReadStringAsync(uri, Jsons.Serialize(request), cancellationToken));
+            return JsonExtends.TryDeserialize<TResponse>(await httpClient.PostAndReadStringAsync(uri, JsonExtends.Serialize(request), cancellationToken));
         }
         public static async Task<TResponse> PostAndReadAsync<TRequest, TResponse>(this HttpClient httpClient, string uri, TRequest request, TimeSpan timeout)
         {
-            return Jsons.TryDeserialize<TResponse>(await httpClient.PostAndReadStringAsync(uri, Jsons.Serialize(request), timeout));
+            return JsonExtends.TryDeserialize<TResponse>(await httpClient.PostAndReadStringAsync(uri, JsonExtends.Serialize(request), timeout));
         }
         #endregion
         #endregion
         #region Send
-        public static async Task<HttpResponseMessage> SendAsync(this HttpClient httpClient, HttpRequestMessage request, TimeSpan timeout)
+        public static Task<HttpResponseMessage> SendAsync(this HttpClient httpClient, HttpRequestMessage request, TimeSpan timeout)
         {
-            return await httpClient.SendAsync(request, new CancellationTokenSource(timeout).Token);
+            return CancellationTokenSourceExtends.InvokeAsync(timeout, token=>httpClient.SendAsync(request, token));
         }
 
         public static async Task<string> SendAndReadStringAsync(this HttpClient httpClient, HttpRequestMessage request)
@@ -232,15 +232,15 @@ namespace Lib.Client
 
         public static async Task<TResponse> SendAndReadAsync<TResponse>(this HttpClient httpClient, HttpRequestMessage request)
         {
-            return Jsons.TryDeserialize<TResponse>(await httpClient.SendAndReadStringAsync(request));
+            return JsonExtends.TryDeserialize<TResponse>(await httpClient.SendAndReadStringAsync(request));
         }
         public static async Task<TResponse> SendAndReadAsync<TResponse>(this HttpClient httpClient, HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            return Jsons.TryDeserialize<TResponse>(await httpClient.SendAndReadStringAsync(request, cancellationToken));
+            return JsonExtends.TryDeserialize<TResponse>(await httpClient.SendAndReadStringAsync(request, cancellationToken));
         }
         public static async Task<TResponse> SendAndReadAsync<TResponse>(this HttpClient httpClient, HttpRequestMessage request, TimeSpan timeout)
         {
-            return Jsons.TryDeserialize<TResponse>(await httpClient.SendAndReadStringAsync(request, timeout));
+            return JsonExtends.TryDeserialize<TResponse>(await httpClient.SendAndReadStringAsync(request, timeout));
         }
         #endregion
     }

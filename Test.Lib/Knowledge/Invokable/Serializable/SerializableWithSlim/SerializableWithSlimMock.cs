@@ -6,6 +6,6 @@ namespace Test.Lib
     {
         public void Pause() { }
         public void Continue() { }
-        public void Wait() { }
+        public void WaitForRun() { }
     }
 }

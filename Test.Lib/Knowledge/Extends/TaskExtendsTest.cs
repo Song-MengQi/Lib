@@ -52,11 +52,11 @@ namespace Test.Lib
 
             Assert.IsFalse(TaskExtends.Wait(new Result<Task<bool>> {
                 State = ResultState.Fail,
-                Data = Task.Run(()=>true)
+                Data = Task.FromResult(true)
             }));
             Assert.IsTrue(TaskExtends.Wait(new Result<Task<bool>> {
                 State = ResultState.Success,
-                Data = Task.Run(()=>true)
+                Data = Task.FromResult(true)
             }));
         }
     }

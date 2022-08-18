@@ -31,7 +31,5 @@ namespace Test.Lib
         //[TestCleanup()]
         //public void MyTestCleanup() {}
         #endregion
-        [TestMethod]
-        public override void TestAppend() { base.TestAppend(); }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 
@@ -9,27 +8,33 @@ namespace Lib.Server
         where T : ServerBase<T, IT>, IT, new()
         where IT : IServer
     {
-        public Dictionary<Type, Type> ServiceTypeDic { get; private set; }
+        public List<ServiceItem> ServiceItemList { get; private set; }
         private ServiceHost[] serviceHosts;
         protected ServerBase() : base()
         {
-            ServiceTypeDic = new Dictionary<Type, Type>();
+            ServiceItemList = new List<ServiceItem>();
         }
         #region private
-        private IServiceHostBuilder GetServiceHostBuilder(Type serviceType)
+        private IServiceHostBuilder GetServiceHostBuilder(BindingType bindingType)
         {
-            if (LibServerStringExtends.EndsWithNamedPipeService(serviceType.Name)) return NetNamedPipeServiceHostBuilder.Instance;
-            if (LibServerStringExtends.EndsWithTcpService(serviceType.Name)) return NetTcpServiceHostBuilder.Instance;
-            return WebHttpServiceHostBuilder.Instance;
+            switch (bindingType)
+            {
+                case BindingType.NetNamedPipe:
+                    return NetNamedPipeServiceHostBuilder.Instance;
+                case BindingType.NetTcp:
+                    return NetTcpServiceHostBuilder.Instance;
+                default:
+                    return WebHttpServiceHostBuilder.Instance;
+            }
         }
-        private ServiceHost GetServiceHost(Type serviceType, Type contractType)
+        private ServiceHost GetServiceHost(ServiceItem serviceItem)
         {
-            return GetServiceHostBuilder(serviceType).BuildServiceHost(serviceType, contractType);
+            return GetServiceHostBuilder(serviceItem.BindingType).BuildServiceHost(serviceItem.ServiceType, serviceItem.ContractType);
         }
         #endregion
         public void Open()
         {
-            serviceHosts = ServiceTypeDic.Select(kv => GetServiceHost(kv.Key, kv.Value)).ToArray();
+            serviceHosts = ServiceItemList.Select(GetServiceHost).ToArray();
             //注册完服务之后，Builder实例就没用了，释放。
             NetNamedPipeServiceHostBuilder.UnsetInstance();
             NetTcpServiceHostBuilder.UnsetInstance();
@@ -46,6 +51,7 @@ namespace Lib.Server
             {
                 serviceHost.Close();
             }
+            serviceHosts = default(ServiceHost[]);
         }
     }
 }

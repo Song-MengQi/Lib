@@ -1,11 +1,17 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Lib;
+﻿using Lib;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Test.Lib
 {
     [TestClass]
     public class CharExtendTest : TestBase
     {
+        [TestMethod]
+        public void TestIsAscii()
+        {
+            Assert.IsTrue('1'.IsAscii());
+            Assert.IsFalse('一'.IsAscii());
+        }
         [TestMethod]
         public void TestIs_zh()
         {

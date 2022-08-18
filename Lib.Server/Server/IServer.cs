@@ -3,10 +3,15 @@ using System.Collections.Generic;
 
 namespace Lib.Server
 {
+    public class ServiceItem
+    {
+        public Type ServiceType { get; set; }
+        public Type ContractType { get; set; }
+        public BindingType BindingType { get; set; }
+    }
     public interface IServer
     {
-        //Service=>Contract
-        Dictionary<Type, Type> ServiceTypeDic { get; }
+        List<ServiceItem> ServiceItemList { get; }
         void Open();
         void Close();
     }

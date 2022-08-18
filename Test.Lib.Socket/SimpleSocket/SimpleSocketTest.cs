@@ -12,13 +12,13 @@ namespace Test.Lib.Socket
     {
         private SimpleSocketServer GetSimpleSocketServer()
         {
-            return new SimpleSocketServer("127.0.0.1", 10001) {
+            return new SimpleSocketServer("127.0.0.1", (ushort)10001) {
                 ReceiveBufferSize = 256
             };
         }
         private SimpleSocketClient GetSimpleSocketClient()
         {
-            return new SimpleSocketClient("127.0.0.1", 10001) {
+            return new SimpleSocketClient("127.0.0.1", (ushort)10001) {
                 ReceiveBufferSize = 256
             };
         }
@@ -40,9 +40,9 @@ namespace Test.Lib.Socket
             string strServer = string.Empty;
             string strClient = string.Empty;
             SimpleSocketServer server = GetSimpleSocketServer();
-            server.DidReceive += (bytes) => strServer += Encoding.UTF8.GetString(bytes);
+            server.DidReceive += (bytes) => strServer += Encodings.UTF8.GetString(bytes);
             SimpleSocketClient client = GetSimpleSocketClient();
-            client.DidReceive += (bytes) => strClient += Encoding.UTF8.GetString(bytes);
+            client.DidReceive += (bytes) => strClient += Encodings.UTF8.GetString(bytes);
 
             EnsureConnect(server, client);
 
@@ -63,11 +63,14 @@ namespace Test.Lib.Socket
 
             Assert.AreEqual(strServer, "abcdeffffff");
             Assert.AreEqual(strClient, "ABCDEFFFFFF");
+
+            server.Dispose();
+            client.Dispose();
         }
         [TestMethod]
         public void TestOther()
         {
-            Assert.AreEqual(new SimpleSocketClient("127.0.0.1", 10001) {
+            Assert.AreEqual(new SimpleSocketClient("127.0.0.1", (ushort)10001) {
                 ReceiveBufferSize = 256,
                 ConnectConfig = new ConnectConfig { 
                     TryTimes = 1,
@@ -78,7 +81,7 @@ namespace Test.Lib.Socket
 
             string strServer = string.Empty;
             string strClient = string.Empty;
-            SimpleSocketServer server = new SimpleSocketServer("127.0.0.1", 10001) {
+            SimpleSocketServer server = new SimpleSocketServer("127.0.0.1", (ushort)10001) {
                 ReceiveBufferSize = 256,
                 KeepAliveConfig = new KeepAliveConfig { 
                     IsKeepAlive = true,
@@ -86,7 +89,7 @@ namespace Test.Lib.Socket
                     KeepAliveTryDuration = 1
                 }
             };
-            SimpleSocketClient client = new SimpleSocketClient("127.0.0.1", 10001) {
+            SimpleSocketClient client = new SimpleSocketClient("127.0.0.1", (ushort)10001) {
                 ReceiveBufferSize = 256
             };
 
@@ -109,6 +112,9 @@ namespace Test.Lib.Socket
             server.DisconnectBackground();
             Assert.AreEqual(client.DisconnectAsync().Result, ResultState.Success);
             Assert.AreEqual(server.DisconnectAsync().Result, ResultState.Success);
+
+            server.Dispose();
+            client.Dispose();
         }
         [TestMethod]
         public void TestDisconnectServer()
@@ -118,9 +124,9 @@ namespace Test.Lib.Socket
             ManualResetEventSlim clientConnectSlim = new ManualResetEventSlim(false);
             ManualResetEventSlim clientDisconnectSlim = new ManualResetEventSlim(true);
             SimpleSocketServer server = GetSimpleSocketServer();
-            server.DidReceive += (bytes) => strServer += Encoding.UTF8.GetString(bytes);
+            server.DidReceive += (bytes) => strServer += Encodings.UTF8.GetString(bytes);
             SimpleSocketClient client = GetSimpleSocketClient();
-            client.DidReceive += (bytes) => strClient += Encoding.UTF8.GetString(bytes);
+            client.DidReceive += (bytes) => strClient += Encodings.UTF8.GetString(bytes);
             client.DidConnect += () => {
                 clientConnectSlim.Set();
                 clientDisconnectSlim.Reset();
@@ -145,6 +151,11 @@ namespace Test.Lib.Socket
             Assert.AreEqual(server.SendUTF8("A"), ResultState.Success);
             Assert.AreEqual(client.SendUTF8("a"), ResultState.Success);
             EnsureDisconnect(server, client);
+
+            clientConnectSlim.Dispose();
+            clientDisconnectSlim.Dispose();
+            server.Dispose();
+            client.Dispose();
         }
         [TestMethod]
         public void TestDisconnectClient()
@@ -154,7 +165,7 @@ namespace Test.Lib.Socket
             ManualResetEventSlim serverConnectSlim = new ManualResetEventSlim(false);
             ManualResetEventSlim serverDisconnectSlim = new ManualResetEventSlim(true);
             SimpleSocketServer server = GetSimpleSocketServer();
-            server.DidReceive += (bytes) => strServer += Encoding.UTF8.GetString(bytes);
+            server.DidReceive += (bytes) => strServer += Encodings.UTF8.GetString(bytes);
             server.DidConnect += () => {
                 serverConnectSlim.Set();
                 serverDisconnectSlim.Reset();
@@ -164,7 +175,7 @@ namespace Test.Lib.Socket
                 serverDisconnectSlim.Set();
             };
             SimpleSocketClient client = GetSimpleSocketClient();
-            client.DidReceive += (bytes) => strClient += Encoding.UTF8.GetString(bytes);
+            client.DidReceive += (bytes) => strClient += Encodings.UTF8.GetString(bytes);
 
             EnsureConnect(server, client);
 
@@ -181,6 +192,11 @@ namespace Test.Lib.Socket
             Assert.AreEqual(server.SendUTF8("A"), ResultState.Success);
             Assert.AreEqual(client.SendUTF8("a"), ResultState.Success);
             EnsureDisconnect(server, client);
+
+            serverConnectSlim.Dispose();
+            serverDisconnectSlim.Dispose();
+            server.Dispose();
+            client.Dispose();
         }
         [TestMethod]
         public void TestReconnect()
@@ -188,9 +204,9 @@ namespace Test.Lib.Socket
             string strServer = string.Empty;
             string strClient = string.Empty;
             SimpleSocketServer server = GetSimpleSocketServer();
-            server.DidReceive += (bytes) => strServer += Encoding.UTF8.GetString(bytes);
+            server.DidReceive += (bytes) => strServer += Encodings.UTF8.GetString(bytes);
             SimpleSocketClient client = GetSimpleSocketClient();
-            client.DidReceive += (bytes) => strClient += Encoding.UTF8.GetString(bytes);
+            client.DidReceive += (bytes) => strClient += Encodings.UTF8.GetString(bytes);
 
             EnsureConnect(server, client);
             EnsureDisconnect(server, client);
@@ -209,6 +225,9 @@ namespace Test.Lib.Socket
             Assert.AreEqual(server.SendUTF8("B"), ResultState.Success);
             Assert.AreEqual(client.SendUTF8("b"), ResultState.Success);
             EnsureDisconnect(server, client);
+
+            server.Dispose();
+            client.Dispose();
         }
         [TestMethod]
         public void TestReconnectServer()
@@ -218,7 +237,7 @@ namespace Test.Lib.Socket
             ManualResetEventSlim serverConnectSlim = new ManualResetEventSlim(false);
             ManualResetEventSlim serverDisconnectSlim = new ManualResetEventSlim(true);
             SimpleSocketServer server = GetSimpleSocketServer();
-            server.DidReceive += (bytes) => strServer += Encoding.UTF8.GetString(bytes);
+            server.DidReceive += (bytes) => strServer += Encodings.UTF8.GetString(bytes);
             server.DidConnect += () => {
                 serverConnectSlim.Set();
                 serverDisconnectSlim.Reset();
@@ -236,7 +255,7 @@ namespace Test.Lib.Socket
                 }
             };
             SimpleSocketClient client = GetSimpleSocketClient();
-            client.DidReceive += (bytes) => strClient += Encoding.UTF8.GetString(bytes);
+            client.DidReceive += (bytes) => strClient += Encodings.UTF8.GetString(bytes);
 
             EnsureConnect(server, client);
             Assert.AreEqual(client.Disconnect(), ResultState.Success);//client主动断开
@@ -250,6 +269,11 @@ namespace Test.Lib.Socket
             //EnsureDisconnect(server, client);//这次Server会自动重连，所以server先断开
             Assert.AreEqual(server.Disconnect(), ResultState.Success);
             Assert.AreEqual(client.Disconnect(), ResultState.Success);
+
+            serverConnectSlim.Dispose();
+            serverDisconnectSlim.Dispose();
+            server.Dispose();
+            client.Dispose();
         }
         [TestMethod]
         public void TestReconnectClient()
@@ -261,9 +285,9 @@ namespace Test.Lib.Socket
             ManualResetEventSlim clientConnectSlim = new ManualResetEventSlim(false);
             ManualResetEventSlim clientDisconnectSlim = new ManualResetEventSlim(true);
             SimpleSocketServer server = GetSimpleSocketServer();
-            server.DidReceive += (bytes) => strServer += Encoding.UTF8.GetString(bytes);
+            server.DidReceive += (bytes) => strServer += Encodings.UTF8.GetString(bytes);
             SimpleSocketClient client = GetSimpleSocketClient();
-            client.DidReceive += (bytes) => strClient += Encoding.UTF8.GetString(bytes);
+            client.DidReceive += (bytes) => strClient += Encodings.UTF8.GetString(bytes);
             client.DidConnect += () => {
                 clientConnectSlim.Set();
                 clientDisconnectSlim.Reset();
@@ -292,6 +316,11 @@ namespace Test.Lib.Socket
             Assert.AreEqual(server.SendUTF8("B"), ResultState.Success);
             Assert.AreEqual(client.SendUTF8("b"), ResultState.Success);
             EnsureDisconnect(server, client);
+
+            clientConnectSlim.Dispose();
+            clientDisconnectSlim.Dispose();
+            server.Dispose();
+            client.Dispose();
         }
     }
 }

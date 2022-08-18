@@ -1,9 +1,43 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Lib.UI"
+    xmlns:System="clr-namespace:System;assembly=mscorlib">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Lib.UI;component/Style/BaseStyle.xaml"/>
     </ResourceDictionary.MergedDictionaries>
+
+    <x:Static x:Key="CharMinValue" Member="System:Char.MinValue"/>
+    <x:Static x:Key="SByteMinValue" Member="System:SByte.MinValue"/>
+    <x:Static x:Key="ByteMinValue" Member="System:Byte.MinValue"/>
+    <x:Static x:Key="Int16MinValue" Member="System:Int16.MinValue"/>
+    <x:Static x:Key="UInt16MinValue" Member="System:UInt16.MinValue"/>
+    <x:Static x:Key="Int32MinValue" Member="System:Int32.MinValue"/>
+    <x:Static x:Key="UInt32MinValue" Member="System:UInt32.MinValue"/>
+    <x:Static x:Key="Int64MinValue" Member="System:Int64.MinValue"/>
+    <x:Static x:Key="UInt64MinValue" Member="System:UInt64.MinValue"/>
+    <x:Static x:Key="SingleMinValue" Member="System:Single.MinValue"/>
+    <x:Static x:Key="DoubleMinValue" Member="System:Double.MinValue"/>
+    <x:Static x:Key="DecimalMinValue" Member="System:Decimal.MinValue"/>
+    
+    <x:Static x:Key="CharMaxValue" Member="System:Char.MaxValue"/>
+    <x:Static x:Key="SByteMaxValue" Member="System:SByte.MaxValue"/>
+    <x:Static x:Key="ByteMaxValue" Member="System:Byte.MaxValue"/>
+    <x:Static x:Key="Int16MaxValue" Member="System:Int16.MaxValue"/>
+    <x:Static x:Key="UInt16MaxValue" Member="System:UInt16.MaxValue"/>
+    <x:Static x:Key="Int32MaxValue" Member="System:Int32.MaxValue"/>
+    <x:Static x:Key="UInt32MaxValue" Member="System:UInt32.MaxValue"/>
+    <x:Static x:Key="Int64MaxValue" Member="System:Int64.MaxValue"/>
+    <x:Static x:Key="UInt64MaxValue" Member="System:UInt64.MaxValue"/>
+    <x:Static x:Key="SingleMaxValue" Member="System:Single.MaxValue"/>
+    <x:Static x:Key="DoubleMaxValue" Member="System:Double.MaxValue"/>
+    <x:Static x:Key="DecimalMaxValue" Member="System:Decimal.MaxValue"/>
+
+    <!--BooleanToVisibilityConverter-->
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+    <!--LanguageConverter-->
+    <local:LanguageConverter x:Key="LanguageConverter"/>
 
     <!--Separator-->
     <Style TargetType="{x:Type Separator}">

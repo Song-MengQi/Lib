@@ -5,11 +5,7 @@ namespace Lib
 {
     public class Serializable : ISerializable
     {
-        private readonly SerialQueue serialQueue;
-        public Serializable()
-        {
-            serialQueue = new SerialQueue();
-        }
+        private readonly SerialQueue serialQueue = new SerialQueue();
         public bool IsRunning { get { return serialQueue.IsRunning; } }
         public bool IsEmpty { get { return serialQueue.IsEmpty; } }
         public void Clear() { serialQueue.Clear(); }

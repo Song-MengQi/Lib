@@ -17,6 +17,10 @@ namespace Test.Lib
             DateTimeExtends.GetNowTime6String();
 
             DateTimeExtends.GetYesterdayDateString();
+
+
+            Assert.AreEqual(DateTimeExtends.DefaultDateTimeString, "0000-00-00 00:00:00");
+            Assert.AreEqual(DateTimeExtends.DefaultDateTime6String, "0000-00-00 00:00:00.000000");
         }
     }
 }

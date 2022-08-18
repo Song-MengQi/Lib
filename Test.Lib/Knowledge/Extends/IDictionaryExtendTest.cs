@@ -99,7 +99,38 @@ namespace Test.Lib
         }
 
         [TestMethod]
-        public void TestX()
+        public void TestTryGetValue()
+        {
+            Dictionary<int, int> dic = new Dictionary<int, int> {
+                { 1, 1 }
+            };
+            Assert.AreEqual(dic.TryGetValue(1), 1);
+            Assert.AreEqual(dic.TryGetValue(2), 0);
+        }
+        [TestMethod]
+        public void TestGetValueOrDefault()
+        {
+            Dictionary<int, int> dic = new Dictionary<int, int> {
+                { 1, 1 }
+            };
+            Assert.AreEqual(dic.GetValueOrDefault(1, 2), 1);
+            Assert.AreEqual(dic.GetValueOrDefault(2, 2), 2);
+
+            ListDictionary dic2 = new ListDictionary {
+                { 1, 1 }
+            };
+            Assert.AreEqual(dic2.GetValueOrDefault(1, 2), 1);
+            Assert.AreEqual(dic2.GetValueOrDefault(2, 2), 2);
+
+            ListDictionary<int, int> dic3 = new ListDictionary<int, int> {
+                { 1, 1 }
+            };
+            Assert.AreEqual(dic3.GetValueOrDefault(1, 2), 1);
+            Assert.AreEqual(dic3.GetValueOrDefault(2, 2), 2);
+        }
+
+        [TestMethod]
+        public void TestGeneralize()
         {
             ListDictionary ld = new ListDictionary{
                 {1, "1"}
@@ -141,43 +172,43 @@ namespace Test.Lib
             Assert.AreEqual(a, (new ListDictionary { { 2, a }, { 1, 3 } }).GetHeadValue());
         }
         [TestMethod]
-        public void TestAddIf()
+        public void TestSetIf()
         {
             ListDictionary ld = new ListDictionary();
-            ld.AddIf(0, 0, x => false, x => x.ToString());
-            ld.AddIf(0, 0, x => true, x => x.ToString());
+            ld.SetIf(0, 0, x => false, x => x.ToString());
+            ld.SetIf(0, 0, x => true, x => x.ToString());
 
-            ld.AddIf(1, "1", x => false);
-            ld.AddIf(1, "1", x => true);
+            ld.SetIf(1, "1", x => false);
+            ld.SetIf(1, "1", x => true);
 
-            ld.AddIf(2, default(string));
-            ld.AddIf(2, "2");
+            ld.SetIf(2, default(string));
+            ld.SetIf(2, "2");
 
-            ld.AddIfNotEmpty(3, string.Empty);
-            ld.AddIfNotEmpty(3, "3");
+            ld.SetIfNotEmpty(3, string.Empty);
+            ld.SetIfNotEmpty(3, "3");
 
-            ld.AddIfNotEmptyAnd(4, string.Empty, x => false);
-            ld.AddIfNotEmptyAnd(4, string.Empty, x => true);
-            ld.AddIfNotEmptyAnd(4, "4", x => false);
-            ld.AddIfNotEmptyAnd(4, "4", x => true);
+            ld.SetIfNotEmptyAnd(4, string.Empty, x => false);
+            ld.SetIfNotEmptyAnd(4, string.Empty, x => true);
+            ld.SetIfNotEmptyAnd(4, "4", x => false);
+            ld.SetIfNotEmptyAnd(4, "4", x => true);
 
-            ld.AddIfByte(5, "x");
-            ld.AddIfByte(5, "5");
+            ld.SetIfByte(5, "x");
+            ld.SetIfByte(5, "5");
 
-            ld.AddIfUshort(6, "x");
-            ld.AddIfUshort(6, "6");
+            ld.SetIfUshort(6, "x");
+            ld.SetIfUshort(6, "6");
 
-            ld.AddIfUint(7, "x");
-            ld.AddIfUint(7, "7");
+            ld.SetIfUint(7, "x");
+            ld.SetIfUint(7, "7");
 
-            ld.AddIfUlong(8, "x");
-            ld.AddIfUlong(8, "8");
+            ld.SetIfUlong(8, "x");
+            ld.SetIfUlong(8, "8");
 
-            ld.AddIfId(9, "x");
-            ld.AddIfId(9, "9");
+            ld.SetIfId(9, "x");
+            ld.SetIfId(9, "9");
 
-            ld.AddIfPositiveId(10, "x");
-            ld.AddIfPositiveId(10, "10");
+            ld.SetIfPositiveId(10, "x");
+            ld.SetIfPositiveId(10, "10");
 
             Assert.AreEqual(ld[0], "0");
             Assert.AreEqual(ld[1], "1");

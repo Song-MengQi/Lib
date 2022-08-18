@@ -23,8 +23,8 @@ namespace Test.Lib
         }
         protected T GetValue<T>([CallerMemberName] string method = default(string))
         {
-            if (false == expectValues.ContainsKey(method)) return default(T);
-            Queue<object> queue = expectValues[method];
+            Queue<object> queue;
+            if (false == expectValues.TryGetValue(method, out queue)) return default(T);
             if (0 == queue.Count) return default(T);
             return (T)queue.Dequeue();
         }

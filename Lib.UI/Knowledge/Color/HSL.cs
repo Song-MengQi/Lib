@@ -2,14 +2,15 @@
 {
     public struct HSL
     {
-        public double Hue { get; set; }
-        public double Lightness { get; set; }
-        public double Saturation { get; set; }
-        public HSL(double hue, double lightness, double saturation) : this()
+        public double H { get; set; }//Hue
+        public double S { get; set; }//Saturation
+        public double L { get; set; }//Lightness
+        public HSL(double h, double s, double l)
+            : this()
         {
-            Hue = hue;
-            Lightness = lightness;
-            Saturation = saturation;
+            H = h;
+            S = s;
+            L = l;
         }
     }
 }

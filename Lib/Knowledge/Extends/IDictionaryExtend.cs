@@ -24,19 +24,27 @@ namespace Lib
         }
         #endregion
         #region Unsets
+        public static void Unsets<TKey, TValue>(this IDictionary<TKey, TValue> source, IEnumerable<TKey> keys)
+        {
+            foreach (var key in keys)
+            {
+                source.Remove(key);
+            }
+        }
         public static void Unsets<TKey, TValue>(this IDictionary<TKey, TValue> source, IEnumerable<KeyValuePair<TKey, TValue>> kvs)
         {
-            foreach (var kv in kvs)
+            source.Unsets(kvs.Select(kv=>kv.Key));
+        }
+        public static void Unsets(this IDictionary source, IEnumerable keys)
+        {
+            foreach (object key in keys)
             {
-                source.Remove(kv.Key);
+                source.Remove(key);
             }
         }
         public static void Unsets(this IDictionary source, IDictionary dic)
         {
-            foreach (DictionaryEntry kv in dic)
-            {
-                source.Remove(kv.Key);
-            }
+            source.Unsets(dic.Keys);
         }
         #endregion
         #region Gets
@@ -57,6 +65,24 @@ namespace Lib
             }
         }
         #endregion
+        
+        public static TValue TryGetValue<TKey, TValue>(this IDictionary<TKey, TValue> dic, TKey key)
+        {
+            TValue value = default(TValue);
+            dic.TryGetValue(key, out value);
+            return value;
+        }
+        
+        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dic, TKey key, Func<TValue> func)
+        {
+            TValue value = default(TValue);
+            return dic.TryGetValue(key, out value) ? value : func();
+        }
+        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dic, TKey key, TValue defaultValue = default(TValue))
+        {
+            return dic.GetValueOrDefault(key, ()=>defaultValue);
+        }
+
         public static IEnumerable<DictionaryEntry> Generalize(this IDictionary source)
         {
             foreach (DictionaryEntry de in source)
@@ -64,8 +90,16 @@ namespace Lib
                 yield return de;
             }
         }
-        public static void AddHead<TDictionary>(this TDictionary dic, object key, object value)
-            where TDictionary : IDictionary, new()
+        public static object GetValueOrDefault(this IDictionary dic, object key, Func<object> func)
+        {
+            //dic[key]没有则为null
+            return dic.Contains(key) ? dic[key] : func();
+        }
+        public static object GetValueOrDefault(this IDictionary dic, object key, object defaultValue = default(object))
+        {
+            return dic.GetValueOrDefault(key, ()=>defaultValue);
+        }
+        public static void AddHead(this IDictionary dic, object key, object value)
         {
             DictionaryEntry[] des = new DictionaryEntry[dic.Count];
             dic.CopyTo(des, 0);
@@ -92,49 +126,49 @@ namespace Lib
             }
             return default(object);
         }
-        public static void AddIf<TSrc, TDest>(this IDictionary dic, object key, TSrc value, Func<TSrc, bool> func, Func<TSrc, TDest> to)
+        public static void SetIf<TSrc, TDest>(this IDictionary dic, object key, TSrc value, Func<TSrc, bool> func, Func<TSrc, TDest> to)
         {
-            if (func(value)) dic.Add(key, to(value));
+            if (func(value)) dic[key] = to(value);
         }
-        public static void AddIf<T>(this IDictionary dic, object key, T value, Func<T, bool> func)
+        public static void SetIf<T>(this IDictionary dic, object key, T value, Func<T, bool> func)
         {
-            AddIf(dic, key, value, func, v=>v);
+            SetIf(dic, key, value, func, v=>v);
         }
-        public static void AddIf<T>(this IDictionary dic, object key, T value)
+        public static void SetIf<T>(this IDictionary dic, object key, T value)
         {
-            AddIf(dic, key, value, v=>false==ObjectExtends.EqualsDefault(v));
+            SetIf(dic, key, value, v=>false==ObjectExtends.EqualsDefault(v));
         }
-        public static void AddIfNotEmpty(this IDictionary dic, object key, string value)
+        public static void SetIfNotEmpty(this IDictionary dic, object key, string value)
         {
-            AddIf(dic, key, value, str=>false==string.IsNullOrEmpty(value));
+            SetIf(dic, key, value, str=>false==string.IsNullOrEmpty(value));
         }
-        public static void AddIfNotEmptyAnd(this IDictionary dic, object key, string value, Func<string, bool> func)
+        public static void SetIfNotEmptyAnd(this IDictionary dic, object key, string value, Func<string, bool> func)
         {
-            AddIf(dic, key, value, str => false == string.IsNullOrEmpty(value) && func(value));
+            SetIf(dic, key, value, str => false == string.IsNullOrEmpty(value) && func(value));
         }
-        public static void AddIfByte(this IDictionary dic, object key, string value)
+        public static void SetIfByte(this IDictionary dic, object key, string value)
         {
-            AddIf(dic, key, value, StringExtends.IsByte, byte.Parse);
+            SetIf(dic, key, value, StringExtends.IsByte, byte.Parse);
         }
-        public static void AddIfUshort(this IDictionary dic, object key, string value)
+        public static void SetIfUshort(this IDictionary dic, object key, string value)
         {
-            AddIf(dic, key, value, StringExtends.IsUshort, ushort.Parse);
+            SetIf(dic, key, value, StringExtends.IsUshort, ushort.Parse);
         }
-        public static void AddIfUint(this IDictionary dic, object key, string value)
+        public static void SetIfUint(this IDictionary dic, object key, string value)
         {
-            AddIf(dic, key, value, StringExtends.IsUint, uint.Parse);
+            SetIf(dic, key, value, StringExtends.IsUint, uint.Parse);
         }
-        public static void AddIfUlong(this IDictionary dic, object key, string value)
+        public static void SetIfUlong(this IDictionary dic, object key, string value)
         {
-            AddIf(dic, key, value, StringExtends.IsUlong, ulong.Parse);
+            SetIf(dic, key, value, StringExtends.IsUlong, ulong.Parse);
         }
-        public static void AddIfId(this IDictionary dic, object key, string value)
+        public static void SetIfId(this IDictionary dic, object key, string value)
         {
-            AddIf(dic, key, value, StringExtends.IsId, ulong.Parse);
+            SetIf(dic, key, value, StringExtends.IsId, ulong.Parse);
         }
-        public static void AddIfPositiveId(this IDictionary dic, object key, string value)
+        public static void SetIfPositiveId(this IDictionary dic, object key, string value)
         {
-            AddIf(dic, key, value, StringExtends.IsPositiveId, ulong.Parse);
+            SetIf(dic, key, value, StringExtends.IsPositiveId, ulong.Parse);
         }
     }
 }

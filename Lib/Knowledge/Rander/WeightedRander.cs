@@ -56,7 +56,7 @@ namespace Lib
                 if (rand < item.Weight) return item.Value;
                 rand -= item.Weight;
             }
-            return default(T);
+            return default(T);//走不到这里
         }
     }
 }

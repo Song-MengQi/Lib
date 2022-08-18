@@ -1,13 +1,12 @@
-﻿using System;
+﻿using Lib.Json;
+using System;
 using System.Collections.Specialized;
+using System.IO;
 using System.Net;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 using System.ServiceModel.Web;
-using System.Text;
-using System.Xml;
-using Lib.Json;
 
 namespace Lib.Server
 {
@@ -46,21 +45,27 @@ namespace Lib.Server
 
                 NameValueCollection nameValueCollection = uriTemplateMatch.BoundVariables;
                 operationDescription.Messages[0].Body.Parts.Foreach((part, i)=>{
-                    parameters[i] = Jsons.Deserialize(nameValueCollection[part.Name], part.Type);
+                    parameters[i] = JsonExtends.Convert(nameValueCollection[part.Name], part.Type);
                 });
             }
             catch { }
         }
         private void DeserializeRequestPost(Message message, object[] parameters)
         {
-            if (parameters.Length != 1) return;
+            //参数可能来自Url也可能来自Body，统一一下都来自Body
+            if (parameters.Length != 1) return;//Post只认一个参数
             try
             {
-                XmlDictionaryReader bodyReader = message.GetReaderAtBodyContents();
-                bodyReader.ReadStartElement("Binary");
-                string json = Encoding.UTF8.GetString(bodyReader.ReadContentAsBase64());
-                bodyReader.Close();
-                parameters[0] = Jsons.Deserialize(json, operationDescription.Messages[0].Body.Parts[0].Type);
+                byte[] bytes = message.GetBytes();
+                Type type = operationDescription.Messages[0].Body.Parts[0].Type;
+                //【Data】请求参数是Stream或MemoryStream
+                if (typeof(Stream).IsAssignableFrom(type) || typeof(MemoryStream).IsAssignableFrom(type))
+                    parameters[0] = new MemoryStream(bytes);
+                //【Data】请求参数是byte[]且RequestHttpHeaderAttribute.ContentType是ApplicationOctetStream
+                else if (typeof(byte[])==type &&
+                    ContentTypeValues.ApplicationOctetStream == WebServerExtends.GetRequestHttpHeaderAttribute(operationDescription.DeclaringContract.ContractType.FullName, operationDescription.Name).ContentType)
+                    parameters[0] = bytes;
+                else parameters[0] = JsonExtends.Deserialize(Encodings.UTF8.GetString(bytes), operationDescription.Messages[0].Body.Parts[0].Type);
             }
             catch { }
         }
@@ -71,13 +76,24 @@ namespace Lib.Server
         }
         public Message SerializeReply(MessageVersion messageVersion, object[] parameters, object result)
         {
-            Message replyMessage = Message.CreateMessage(messageVersion, operationDescription.Messages[1].Action, new RawBodyWriter(Encoding.UTF8.GetBytes(Jsons.Serialize(result))));
-            replyMessage.Properties.Add(WebBodyFormatMessageProperty.Name, new WebBodyFormatMessageProperty(WebContentFormat.Raw));
+            //不管返回值是不是void，parameters都是空数组
+            byte[] bytes;
+            ResponseHttpHeaderAttribute responseHttpHeaderAttribute = WebServerExtends.GetResponseHttpHeaderAttribute(operationDescription.DeclaringContract.ContractType.FullName, operationDescription.Name);//不能为null
+            //【Data】响应参数是Stream
+            if (result is Stream) bytes = (result as Stream).ToBytes();
+            //【Data】响应参数是byte[]且ResponseHttpHeaderAttribute.ContentType是ApplicationOctetStream
+            else if (result is byte[] && ContentTypeValues.ApplicationOctetStream == responseHttpHeaderAttribute.ContentType) bytes = (result as byte[]);
+            else bytes = Encodings.UTF8.GetBytes(JsonExtends.Serialize(result));//即使是null，也要写出来"null"
+
+            Message message = Message.CreateMessage(messageVersion, operationDescription.Messages[1].Action, new RawBodyWriter(bytes));
+            message.Properties.Add(WebBodyFormatMessageProperty.Name, new WebBodyFormatMessageProperty(WebContentFormat.Raw));
 
             HttpResponseMessageProperty httpResponseMessageProperty = new HttpResponseMessageProperty();
-            httpResponseMessageProperty.Headers[HttpResponseHeader.ContentType] = ContentTypeValues.ApplicationJson;
-            replyMessage.Properties.Add(HttpResponseMessageProperty.Name, httpResponseMessageProperty);
-            return replyMessage;
+            if (false==string.IsNullOrEmpty(responseHttpHeaderAttribute.ContentType)) httpResponseMessageProperty.Headers[HttpResponseHeader.ContentType] = responseHttpHeaderAttribute.ContentType;
+            if (false==string.IsNullOrEmpty(responseHttpHeaderAttribute.CacheControl)) httpResponseMessageProperty.Headers[HttpResponseHeader.CacheControl] = responseHttpHeaderAttribute.CacheControl;
+            if (false==string.IsNullOrEmpty(responseHttpHeaderAttribute.AccessControlAllowOrigin)) httpResponseMessageProperty.Headers.Set(HttpHeaderKeys.AccessControlAllowOrigin, responseHttpHeaderAttribute.AccessControlAllowOrigin);
+            message.Properties.Add(HttpResponseMessageProperty.Name, httpResponseMessageProperty);
+            return message;
         }
     }
 }

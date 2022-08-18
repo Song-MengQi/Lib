@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Text;
 
 namespace Lib
 {
@@ -297,20 +297,38 @@ namespace Lib
         }
         #endregion
 
-        #region ParasKV
-        public static string ParasKV(ListDictionary kvDictionary, Func<string, string, string> func)
+        #region KeyValues
+        #region Dictionary<TKey, TValue>多接口实现取舍问题
+        private static string KeyValues(IDictionary dic, Func<object, object, string> func)
         {
-            return string.Concat(kvDictionary.Generalize().Select(kv=>func(kv.Key.ToString(), kv.Value.ToString())));
+            return string.Concat(dic.Generalize().Select(kv => func(kv.Key, kv.Value)));
         }
-        public static string ParasKV(Dictionary<string, string> kvDictionary, Func<string, string, string> func)
+        public static string KeyValues(ListDictionary dic, Func<object, object, string> func) { return KeyValues(dic as IDictionary, func); }
+        public static string KeyValues<TKey, TValue>(ListDictionary<TKey, TValue> dic, Func<TKey, TValue, string> func) { return KeyValues(dic as IEnumerable<KeyValuePair<TKey, TValue>>, func); }
+        #endregion
+        public static string KeyValues<TKey, TValue>(IEnumerable<KeyValuePair<TKey, TValue>> kvs, Func<TKey, TValue, string> func)
         {
-            return string.Concat(kvDictionary.Select(kv => func(kv.Key, kv.Value)));
+            return string.Concat(kvs.Select(kv => func(kv.Key, kv.Value)));
         }
-        public static string ParasKV(string[] keys, string[] values, Func<string, string, string> func)
+        public static string KeyValues(object[] keys, object[] values, Func<object, object, string> func)
         {
-            //int length = keys.Length;
-            //if (values.Length != length) return string.Empty;
             return string.Concat(ArrayExtends.GetArray(keys.Length, i => func(keys[i], values[i])));
+        }
+        #region Dictionary<TKey, TValue>多接口实现取舍问题
+        private static string KeyValues(IDictionary dic, Func<object, object, string> func, string separator)
+        {
+            return string.Join(separator, dic.Generalize().Select(kv => func(kv.Key, kv.Value)));
+        }
+        public static string KeyValues(ListDictionary dic, Func<object, object, string> func, string separator) { return KeyValues(dic as IDictionary, func, separator); }
+        public static string KeyValues<TKey, TValue>(ListDictionary<TKey, TValue> dic, Func<TKey, TValue, string> func, string separator) { return KeyValues(dic as IEnumerable<KeyValuePair<TKey, TValue>>, func, separator); }
+        #endregion
+        public static string KeyValues<TKey, TValue>(IEnumerable<KeyValuePair<TKey, TValue>> kvs, Func<TKey, TValue, string> func, string separator)
+        {
+            return string.Join(separator, kvs.Select(kv => func(kv.Key, kv.Value)));
+        }
+        public static string KeyValues(object[] keys, object[] values, Func<object, object, string> func, string separator)
+        {
+            return string.Join(separator, ArrayExtends.GetArray(keys.Length, i => func(keys[i], values[i])));
         }
         #endregion
 
@@ -352,30 +370,33 @@ namespace Lib
         #region string <=> bytes
         public static byte[] StringToBytes(string str)
         {
-            return Encoding.UTF8.GetBytes(str);
+            return Encodings.UTF8.GetBytes(str);
         }
         public static string BytesToString(byte[] bytes)
         {
-            return Encoding.UTF8.GetString(bytes);
+            return Encodings.UTF8.GetString(bytes);
         }
         #endregion
-
-        //#region MyBase64
-        //public static string MyBase64Encode(string str)
-        //{
-        //    return Convert.ToBase64String(StringToBytes(str)).Replace('+','-').Replace('/','_').Replace('=','*');
-        //}
-        //public static string MyBase64Decode(string str)
-        //{
-        //    return BytesToString(Convert.FromBase64String(str.Replace('*','=').Replace('_','/').Replace('-','+')));
-        //}
-        //public static bool TryMyBase64Decode(ref string str)
-        //{
-        //    try { str = MyBase64Decode(str); }
-        //    catch { return false; }
-        //    return true;
-        //}
-        //#endregion
+        #region Base64
+        public static string Base64Encode(string str)
+        {
+            return ConvertExtends.ToBase64String(StringToBytes(str));
+        }
+        public static string Base64Decode(string str)
+        {
+            return BytesToString(ConvertExtends.FromBase64String(str));
+        }
+        public static bool TryBase64Decode(string str, out string result)
+        {
+            try { result = Base64Decode(str); }
+            catch
+            {
+                result = default(string);
+                return false;
+            }
+            return true;
+        }
+        #endregion
     }
     #endregion
 }

@@ -9,12 +9,6 @@ namespace Lib
         {
             slim.Arrival(manualResetEventSlim=>manualResetEventSlim.Wait(), dispatchAction);
         }
-        public static ManualResetEventSlim Add(this ISlim slim)
-        {
-            ManualResetEventSlim manualResetEventSlim = new ManualResetEventSlim(false);
-            slim.Add(manualResetEventSlim);
-            return manualResetEventSlim;
-        }
         #region Version0 NoUse
         //public static bool AddResetWaitRemove(this ISlim slim, Func<ManualResetEventSlim, bool> waitFunc)
         //{
@@ -106,45 +100,56 @@ namespace Lib
         #endregion
         public static void CheckWait(this ISlim slim, Func<bool> checkFunc, Action<ManualResetEventSlim> setSlimAction = default(Action<ManualResetEventSlim>))
         {
-            ManualResetEventSlim manualResetEventSlim = new ManualResetEventSlim();
-            ActionExtends.Invoke(setSlimAction, manualResetEventSlim);
-            CheckExtends.CheckWait(()=>slim.Check(checkFunc, manualResetEventSlim), manualResetEventSlim.Wait);
-            ActionExtends.Invoke(setSlimAction, default(ManualResetEventSlim));
+            using (ManualResetEventSlim manualResetEventSlim = new ManualResetEventSlim())
+            {
+                ActionExtends.Invoke(setSlimAction, manualResetEventSlim);
+                CheckExtends.CheckWait(()=>slim.Check(checkFunc, manualResetEventSlim), manualResetEventSlim.Wait);
+                ActionExtends.Invoke(setSlimAction, default(ManualResetEventSlim));
+            }
         }
         public static bool CheckTimeout(this ISlim slim, Func<bool> checkFunc, int duration, Action<ManualResetEventSlim> setSlimAction = default(Action<ManualResetEventSlim>))
         {
-            ManualResetEventSlim manualResetEventSlim = new ManualResetEventSlim();
-            ActionExtends.Invoke(setSlimAction, manualResetEventSlim);
-            bool result = CheckExtends.CheckTimeout(()=>slim.Check(checkFunc, manualResetEventSlim), duration, manualResetEventSlim.Wait);
-            ActionExtends.Invoke(setSlimAction, default(ManualResetEventSlim));
-            slim.Remove(manualResetEventSlim);
-            return result;
+            using (ManualResetEventSlim manualResetEventSlim = new ManualResetEventSlim())
+            {
+                ActionExtends.Invoke(setSlimAction, manualResetEventSlim);
+                bool result = CheckExtends.CheckTimeout(()=>slim.Check(checkFunc, manualResetEventSlim), duration, manualResetEventSlim.Wait);
+                ActionExtends.Invoke(setSlimAction, default(ManualResetEventSlim));
+                slim.Remove(manualResetEventSlim);
+                return result;
+            }
         }
         public static void CheckWait(this ISlim slim, Func<bool> triggerFunc, Func<bool> checkFunc, Action<ManualResetEventSlim> setSlimAction = default(Action<ManualResetEventSlim>))
         {
-            ManualResetEventSlim manualResetEventSlim = slim.Add();//上来就开始等
-            if (false == triggerFunc())//触发失败，永远等不到的
+            using (ManualResetEventSlim manualResetEventSlim = new ManualResetEventSlim(false))
             {
-                slim.Remove(manualResetEventSlim);
-                return;
+                slim.Add(manualResetEventSlim);//上来就开始等
+                if (false == triggerFunc())//触发失败，永远等不到的
+                {
+                    slim.Remove(manualResetEventSlim);
+                    return;
+                }
+                ActionExtends.Invoke(setSlimAction, manualResetEventSlim);
+                CheckExtends.CheckWait(()=>slim.Check(checkFunc, manualResetEventSlim), manualResetEventSlim.Wait);
+                ActionExtends.Invoke(setSlimAction, default(ManualResetEventSlim));
             }
-            ActionExtends.Invoke(setSlimAction, manualResetEventSlim);
-            CheckExtends.CheckWait(()=>slim.Check(checkFunc, manualResetEventSlim), manualResetEventSlim.Wait);
-            ActionExtends.Invoke(setSlimAction, default(ManualResetEventSlim));
+
         }
         public static bool CheckTimeout(this ISlim slim, Func<bool> triggerFunc, Func<bool> checkFunc, int duration, Action<ManualResetEventSlim> setSlimAction = default(Action<ManualResetEventSlim>))
         {
-            ManualResetEventSlim manualResetEventSlim = slim.Add();//上来就开始等
-            if (false == triggerFunc())//触发失败，永远等不到的
+            using (ManualResetEventSlim manualResetEventSlim = new ManualResetEventSlim(false))
             {
+                slim.Add(manualResetEventSlim);//上来就开始等
+                if (false == triggerFunc())//触发失败，永远等不到的
+                {
+                    slim.Remove(manualResetEventSlim);
+                    return false;
+                }
+                ActionExtends.Invoke(setSlimAction, manualResetEventSlim);
+                bool result = CheckExtends.CheckTimeout(()=>slim.Check(checkFunc, manualResetEventSlim), duration, manualResetEventSlim.Wait);
+                ActionExtends.Invoke(setSlimAction, default(ManualResetEventSlim));
                 slim.Remove(manualResetEventSlim);
-                return false;
+                return result;
             }
-            ActionExtends.Invoke(setSlimAction, manualResetEventSlim);
-            bool result = CheckExtends.CheckTimeout(()=>slim.Check(checkFunc, manualResetEventSlim), duration, manualResetEventSlim.Wait);
-            ActionExtends.Invoke(setSlimAction, default(ManualResetEventSlim));
-            slim.Remove(manualResetEventSlim);
-            return result;
         }
     }
 }

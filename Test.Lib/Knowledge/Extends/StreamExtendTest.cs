@@ -1,6 +1,6 @@
-﻿using System.IO;
-using Lib;
+﻿using Lib;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.IO;
 
 namespace Test.Lib
 {
@@ -12,7 +12,7 @@ namespace Test.Lib
         {
             byte[] bytes = new byte[] { 1, 2 };
             MemoryStream memoryStream = new MemoryStream(bytes);
-            Assert.IsTrue(IEnumerableExtends.SequenceEqual(bytes, memoryStream.ToBytes()));
+            AssertExtends.AreSequenceEqual(bytes, memoryStream.ToBytes());
         }
     }
 }

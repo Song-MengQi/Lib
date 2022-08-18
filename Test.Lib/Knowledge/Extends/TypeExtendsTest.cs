@@ -31,10 +31,5 @@ namespace Test.Lib
             Assert.IsTrue(TypeExtends.IsAssignable(new Type[] { typeof(Task) }, new Type[] { typeof(Task<int>) }));
             Assert.IsFalse(TypeExtends.IsAssignable(new Type[] { typeof(Task) }, new Type[] { }));
         }
-        [TestMethod]
-        public void TestChangeType()
-        {
-            Assert.AreEqual(1, TypeExtends.ChangeType<int>((object)1));
-        }
     }
 }

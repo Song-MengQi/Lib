@@ -18,6 +18,7 @@ namespace Test.Lib
             ManualResetEventSlimExtends.Reset(slim);
             ManualResetEventSlimExtends.Set(slim);
             slim.Wait();
+            slim.Dispose();
         }
     }
 }

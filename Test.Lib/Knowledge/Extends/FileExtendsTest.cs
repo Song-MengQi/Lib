@@ -1,5 +1,6 @@
 ﻿using Lib;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.IO;
 
 namespace Test.Lib
@@ -12,7 +13,8 @@ namespace Test.Lib
         {
             string fileName = "FileExtendsTest/test";
             string fileName2 = "FileExtendsTest/test2";
-            DirectoryExtends.DeleteIfExists("FileExtendsTest");
+            FileExtends.EnsureNotExist("fileName");
+            DirectoryExtends.EnsureNotExist("FileExtendsTest");
             FileExtends.EnsureDirectoryExist(fileName);
             Assert.IsTrue(Directory.Exists("FileExtendsTest"));
 
@@ -43,7 +45,7 @@ namespace Test.Lib
             Assert.AreEqual(lines[1], "1");
             Assert.AreEqual(lines[2], "2");
 
-            File.Delete(fileName);
+            FileExtends.EnsureNotExist(fileName);
             FileExtends.AppendText(fileName, "X");
             text = FileExtends.ReadText(fileName);
             Assert.AreEqual(text, "X");
@@ -69,7 +71,7 @@ namespace Test.Lib
             Assert.AreEqual(text, "X");
 
 
-            File.Delete(fileName);
+            FileExtends.EnsureNotExist(fileName);
             FileExtends.WriteBytes(fileName, new byte[]{0, 1});
             Assert.AreEqual(FileExtends.GetSize(fileName), 2L);
 
@@ -92,6 +94,10 @@ namespace Test.Lib
             Assert.AreEqual(length, 3);
             Assert.AreEqual(bytes.Length, 0);
 
+            FileExtends.Move(fileName, fileName);
+            FileExtends.Copy(fileName, fileName);
+
+            FileExtends.Copy(fileName, fileName2);
             FileExtends.Move(fileName, fileName2);
             Assert.IsFalse(File.Exists(fileName));
             Assert.IsTrue(File.Exists(fileName2));
@@ -100,8 +106,17 @@ namespace Test.Lib
             Assert.IsFalse(File.Exists(fileName2));
             Assert.IsTrue(File.Exists(fileName));
 
-            DirectoryExtends.DeleteIfExists("FileExtendsTest");
+            DirectoryExtends.EnsureNotExist("FileExtendsTest");
             Assert.IsFalse(Directory.Exists("FileExtendsTest"));
+        }
+        [TestMethod]
+        public void TestException()
+        {
+            try { FileExtends.Copy("ABCDEFG", "A"); }
+            catch (Exception e) { Assert.IsInstanceOfType(e, typeof(FileNotFoundException)); }
+
+            try { FileExtends.Move("ABCDEFG", "A"); }
+            catch (Exception e) { Assert.IsInstanceOfType(e, typeof(FileNotFoundException)); }
         }
     }
 }

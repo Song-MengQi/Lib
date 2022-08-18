@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="Lib.UI.MinuteSecondView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Lib.UI"
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Border BorderBrush="{StaticResource BorderBrush-Default1}" BorderThickness="1" CornerRadius="4">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="34"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Button
+                        x:Name="CancelButton"
+                        Content="分钟"
+                        Style="{StaticResource btn-primary}"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Click="CancelButton_Click"/>
+                </Grid>
+                <DataGrid
+                    x:Name="DataGrid"
+                    Grid.Row="1"
+                    AutoGenerateColumns="True"
+                    SelectionMode="Single"
+                    AlternationCount="1"
+                    RowHeaderWidth="0"
+                    CanUserAddRows="False"
+                    RowHeight="24"
+                    ColumnWidth="24"
+                    SelectionUnit="Cell"
+                    IsReadOnly="True"
+                    HeadersVisibility="Row"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    FontSize="{StaticResource SmallFontSize}"
+                    HorizontalGridLinesBrush="{StaticResource BorderBrush-Default1}"
+                    VerticalGridLinesBrush="{StaticResource BorderBrush-Default1}"
+                    SelectedCellsChanged="DataGrid_SelectedCellsChanged">
+                    <DataGrid.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="DataGridCell">
+                                        <Grid>
+                                            <TextBlock Style="{StaticResource DataGridTextBlockCenter}">
+                                                <ContentPresenter/>
+                                            </TextBlock>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="DataGridCell">
+                                                <Grid Background="{StaticResource Background-Primary1}">
+                                                    <TextBlock Style="{StaticResource DataGridTextBlockCenter}" Foreground="{StaticResource Foreground-Primary1}">
+                                                        <ContentPresenter/>
+                                                    </TextBlock>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.CellStyle>
+                </DataGrid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

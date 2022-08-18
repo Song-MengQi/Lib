@@ -6,13 +6,8 @@ namespace Lib
 {
     public class SerializableWithSlim : ISerializableWithSlim, IDisposable
     {
-        protected readonly ISerializable serializable;
-        protected readonly ManualResetEventSlim runSlim;
-        public SerializableWithSlim()
-        {
-            serializable = new Serializable();
-            runSlim = new ManualResetEventSlim(true);
-        }
+        private readonly ISerializable serializable = new Serializable();
+        private readonly ManualResetEventSlim runSlim = new ManualResetEventSlim(true);
         #region Dispose
         public void Dispose()
         {
@@ -94,7 +89,7 @@ namespace Lib
         {
             runSlim.Set();
         }
-        public void Wait()
+        public void WaitForRun()
         {
             runSlim.Wait();
         }

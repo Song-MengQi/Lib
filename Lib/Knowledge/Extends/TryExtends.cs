@@ -31,17 +31,21 @@ namespace Lib
             }
             return false;
         }
+        public static bool Try(Action action, int times) { return Try(action, new TryOptions { Times = times }); }
         public static bool Try<T>(Func<T> func, out T t, TryOptions<T> tryOptions = default(TryOptions<T>))
         {
+            if (default(TryOptions<T>) == tryOptions) tryOptions = new TryOptions<T>();
             T temp = default(T);
             bool result = Try(()=>temp=func(), tryOptions);
             t = result ? temp : FuncExtends.Invoke(tryOptions.DefaultFunc);
             return result;
         }
+        public static bool Try<T>(Func<T> func, out T t, int times) { return Try(func, out t, new TryOptions<T> { Times = times }); }
         public static void Invoke(Action action, TryOptions tryOptions = default(TryOptions))
         {
             Try(action, tryOptions);
         }
+        public static void Invoke(Action action, int times) { Invoke(action, new TryOptions { Times = times }); }
         public static T Invoke<T>(Func<T> func, TryOptions<T> tryOptions = default(TryOptions<T>))
         {
             //T t = default(T);
@@ -51,5 +55,6 @@ namespace Lib
             Try(func, out t, tryOptions);
             return t;
         }
+        public static T Invoke<T>(Func<T> func, int times) { return Invoke(func, new TryOptions<T> { Times = times }); }
     }
 }

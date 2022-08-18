@@ -1,4 +1,5 @@
-﻿using Lib;
+﻿using System.Linq;
+using Lib;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Test.Lib
@@ -6,6 +7,13 @@ namespace Test.Lib
     [TestClass]
     public class ArrayExtendsTest : TestBase
     {
+        [TestMethod]
+        public void TestCreate()
+        {
+            int[] ints = ArrayExtends.Create(2);
+            Assert.AreEqual(ints.Length, 1);
+            Assert.AreEqual(ints.First(), 2);
+        }
         [TestMethod]
         public void TestIsNullOrEmpty()
         {
@@ -93,6 +101,17 @@ namespace Test.Lib
             Assert.AreEqual(array[0], 1);
             Assert.AreEqual(array[1], 10);
             Assert.AreEqual(array[2], 10);
+        }
+
+        [TestMethod]
+        public void TestFindAllIndexs()
+        {
+            int[] array = new int[] { 0, 1, 2 };
+            int[] indexs = ArrayExtends.FindAllIndexs(array, item => item > 0);
+
+            Assert.AreEqual(indexs.Length, 2);
+            Assert.AreEqual(indexs[0], 1);
+            Assert.AreEqual(indexs[1], 2);
         }
     }
 }

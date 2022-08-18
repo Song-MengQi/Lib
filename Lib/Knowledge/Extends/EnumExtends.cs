@@ -11,7 +11,7 @@ namespace Lib
             if (Enum.TryParse<TEnum>(str, true, out t)) return t;
             return default(TEnum);
         }
-        public static TEnum ToObject<TEnum>(int i)
+        public static TEnum ToObject<TEnum>(object i)
         {
             if (Enum.IsDefined(typeof(TEnum), i)) return (TEnum)Enum.ToObject(typeof(TEnum), i);
             return default(TEnum);
@@ -20,7 +20,7 @@ namespace Lib
         {
             return StringExtends.IsInt(str) ? ToObject<TEnum>(int.Parse(str)) : default(TEnum);
         }
-        public static bool IsDefined<TEnum>(int i)
+        public static bool IsDefined<TEnum>(object i)
         {
             return Enum.IsDefined(typeof(TEnum), i);
         }

@@ -60,13 +60,16 @@ namespace Lib
         public static object InvokeGenericMethod(this Type type, string name, Type[] genericTypes, params object[] parameters)
         {
             return type.GetGenericMethod(name, BindingFlags.Static, genericTypes, parameters)
-                .Invoke(default(object), new object[] { });
+                .Invoke(default(object), parameters);
         }
         #endregion
         #region IoC
         public static object GetInstance(this Type type)
         {
-            return type.InvokeMethod("GetInstance");
+            PropertyInfo property = type.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static);
+            return ObjectExtends.EqualsDefault(property)
+                ? type.InvokeMethod("GetInstance")
+                : property.GetValue(default(object));
         }
         public static IT GetInstance<IT>(this Type type)
         {
@@ -80,6 +83,26 @@ namespace Lib
         {
             return (IT)type.GetInstance(key);
         }
+
+        public static void SetInstance(this Type type, object value)
+        {
+            PropertyInfo property = type.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static);
+            if (ObjectExtends.EqualsDefault(property)) type.InvokeMethod("SetInstance", value);
+            else property.SetValue(default(object), value);
+        }
+        //public static void SetInstance<IT>(this Type type, IT value)
+        //{
+        //    type.SetInstance(value);
+        //}
+        public static void SetInstance(this Type type, string key, object value)
+        {
+            type.InvokeMethod("SetInstance", key, value);
+        }
+        //public static void SetInstance<IT>(this Type type, string key, IT value)
+        //{
+        //    type.GetInstance(key, value);
+        //}
+
 
         public static void UnsetInstance(this Type type)
         {
@@ -106,13 +129,6 @@ namespace Lib
         public static bool Exist(this Type type, string key)
         {
             return (bool)type.InvokeMethod("Exist", key);
-        }
-        #endregion
-        #region Attribute
-        public static bool HasAttribute<T>(this Type type)
-            where T : Attribute
-        {
-            return default(T) != type.GetCustomAttribute<T>();
         }
         #endregion
     }

@@ -56,6 +56,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Extends\TimingOptionsTest.cs" />
     <Compile Include="Extends\TotalTimerExtendsTest.cs" />
     <Compile Include="TotalTimer\TotalTimerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

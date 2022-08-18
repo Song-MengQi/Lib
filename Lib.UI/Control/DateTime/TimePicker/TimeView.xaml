@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="Lib.UI.TimeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Lib.UI"
+             mc:Ignorable="d" d:DesignHeight="240" d:DesignWidth="180">
+    <Border Background="White" BorderBrush="{StaticResource BorderBrush-Default1}" BorderThickness="1" CornerRadius="4" Padding="4">
+        <StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,4,0,0">
+                <Button 
+                    x:Name="HourButton"
+                    Style="{StaticResource btn-default}"
+                    FontSize="{DynamicResource CodeFontSize}"
+                    Width="52" Height="{DynamicResource SmallControlHeight}"
+                    Click="HourButton_Click" />
+                <TextBlock Text=":" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4,0"/>
+                <Button 
+                    x:Name="MinuteButton"
+                    Style="{StaticResource btn-default}"
+                    FontSize="{DynamicResource CodeFontSize}"
+                    Width="52" Height="{DynamicResource SmallControlHeight}"
+                    Click="MinuteButton_Click" />
+                <TextBlock Text=":" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4,0"/>
+                <Button 
+                    x:Name="SecondButton"
+                    Style="{StaticResource btn-default}"
+                    FontSize="{DynamicResource CodeFontSize}"
+                    Width="52" Height="{DynamicResource SmallControlHeight}"
+                    Click="SecondButton_Click" />
+            </StackPanel>
+            <Grid x:Name="Grid" VerticalAlignment="Top">
+                <Popup
+                    x:Name="Popup"
+                    PlacementTarget="{Binding ElementName=Grid}"
+                    PopupAnimation="Fade"
+                    Placement="Top"
+                    AllowsTransparency="True"
+                    StaysOpen="False"
+                    IsOpen="False"/>
+            </Grid>
+            <Button
+                x:Name="OKButton"
+                Style="{StaticResource btn-primary}" HorizontalAlignment="Stretch" Margin="0,8,0,0"
+                Click="OKButton_Click" />
+        </StackPanel>
+    </Border>
+</UserControl>

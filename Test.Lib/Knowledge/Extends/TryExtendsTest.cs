@@ -20,7 +20,7 @@ namespace Test.Lib
 
             x = y = 0;
             //试1次会失败
-            Assert.IsFalse(TryExtends.Try(action));
+            Assert.IsFalse(TryExtends.Try(action, 1));
             Assert.AreEqual(x, 1);
 
             x = y = 0;
@@ -53,23 +53,54 @@ namespace Test.Lib
 
             x = 0;
             //对于一次就能成功的直接过
-            Assert.IsTrue(TryExtends.Try(() => { ++x; }));
+            Assert.IsTrue(TryExtends.Try(()=>{ ++x; }, 1));
             Assert.AreEqual(x, 1);
+
+
+            x = 0;
+            //无限次重试，在首次成功后通过
+            Assert.IsTrue(TryExtends.Try(()=>{ ++x; }, -1));
+            Assert.AreEqual(x, 1);
+
+
+            x = y = 0;
+            Assert.IsTrue(TryExtends.Try(()=>++x, out y, 1));
+            Assert.AreEqual(x, 1);
+            Assert.AreEqual(y, 1);
 
 
             x = y = 0;
             Assert.IsTrue(TryExtends.Try(()=>++x, out y));
             Assert.AreEqual(x, 1);
             Assert.AreEqual(y, 1);
+
+            //这个执行不完
+            //TryExtends.Try(()=>{
+            //    throw new Exception();
+            //}, new TryOptions {
+            //    Times = -1,
+            //    CatchAction = exception => {
+            //        System.Console.WriteLine(1);
+            //        System.Threading.Thread.Sleep(1000);
+            //    }
+            //});
         }
         [TestMethod]
         public void TestInvoke()
         {
             int x = 0;
-            TryExtends.Invoke(()=>{ x = 1; });
+            TryExtends.Invoke(()=>{ x = 1; }, 1);
             Assert.AreEqual(x, 1);
 
-            Assert.AreEqual(TryExtends.Invoke(() => 1), 1);
+            Assert.AreEqual(TryExtends.Invoke(() => 1, 1), 1);
+            Assert.AreEqual(TryExtends.Invoke(
+                ()=>{
+                    throw new Exception();
+                },
+                new TryOptions<int> {
+                    Times = 1,
+                    DefaultFunc = ()=>2
+                }), 2);
         }
     }
 }

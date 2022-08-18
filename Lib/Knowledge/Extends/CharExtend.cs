@@ -2,6 +2,10 @@
 {
     public static class CharExtend
     {
+        public static bool IsAscii(this char ch)
+        {
+            return ch <= '\x007f';
+        }
         public static bool Is_zh(this char ch)
         {
             ushort us = (ushort)ch;

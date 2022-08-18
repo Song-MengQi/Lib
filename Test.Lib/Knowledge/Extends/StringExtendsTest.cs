@@ -418,33 +418,51 @@ namespace Test.Lib
         }
         #endregion
 
-        #region ParasKV
+        #region KeyValues
         [TestMethod]
-        public void TestParasKV()
+        public void TestKeyValues()
         {
-            Assert.AreEqual(string.Empty, StringExtends.ParasKV(new ListDictionary(), null));
+            Assert.AreEqual(string.Empty, StringExtends.KeyValues(new ListDictionary(), null));
             ListDictionary listDictionary = new ListDictionary {
                 {"name","qi"},
                 {"age", "18"}
             };
-            Assert.AreEqual("name: qi\nage: 18\n", StringExtends.ParasKV(listDictionary,
+            Assert.AreEqual("name: qi\nage: 18\n", StringExtends.KeyValues(listDictionary,
                 (key, value) => string.Format("{0}: {1}\n", key, value)));
+            Assert.AreEqual("name: qi,age: 18", StringExtends.KeyValues(listDictionary,
+                (key, value) => string.Format("{0}: {1}", key, value), ","));
 
-            Assert.AreEqual(string.Empty, StringExtends.ParasKV(new Dictionary<string,string>(), null));
+
+            Assert.AreEqual(string.Empty, StringExtends.KeyValues<string, string>(new ListDictionary<string, string>(), null));
+            ListDictionary<string, string> listDictionary2 = new ListDictionary<string, string> {
+                {"name","qi"},
+                {"age", "18"}
+            };
+            Assert.AreEqual("name: qi\nage: 18\n", StringExtends.KeyValues(listDictionary2,
+                (key, value) => string.Format("{0}: {1}\n", key, value)));
+            Assert.AreEqual("name: qi,age: 18", StringExtends.KeyValues(listDictionary2,
+                (key, value) => string.Format("{0}: {1}", key, value), ","));
+
+
+            Assert.AreEqual(string.Empty, StringExtends.KeyValues(new Dictionary<string,string>(), null));
             Dictionary<string, string> dictionary = new Dictionary<string, string> {
                 {"name","qi"},
                 {"age", "18"}
             };
 
-            Assert.AreEqual("name: qi\nage: 18\n", StringExtends.ParasKV(dictionary,
-                (key, value) => { return string.Format("{0}: {1}\n", key, value); }));
+            Assert.AreEqual("name: qi\nage: 18\n", StringExtends.KeyValues(dictionary,
+                (key, value) => string.Format("{0}: {1}\n", key, value)));
+            Assert.AreEqual("name: qi,age: 18", StringExtends.KeyValues(dictionary,
+                (key, value) => string.Format("{0}: {1}", key, value), ","));
 
             string[] keys = new string[] { "name", "age" };
             string[] values = new string[] { "qi", "18" };
-            //Assert.AreEqual(string.Empty, StringExtends.ParasKV(keys, new string[] { }, null));
+            //Assert.AreEqual(string.Empty, StringExtends.KeyValues(keys, new string[] { }, null));
 
-            Assert.AreEqual("name: qi\nage: 18\n", StringExtends.ParasKV(keys, values,
+            Assert.AreEqual("name: qi\nage: 18\n", StringExtends.KeyValues(keys, values,
                 (key, value) => string.Format("{0}: {1}\n", key, value)));
+            Assert.AreEqual("name: qi,age: 18", StringExtends.KeyValues(keys, values,
+                (key, value) => string.Format("{0}: {1}", key, value), ","));
         }
         #endregion
 
@@ -516,6 +534,18 @@ namespace Test.Lib
             Assert.AreEqual(b2.Length, b.Length);
             Assert.AreEqual(b2[0], b[0]);
             Assert.AreEqual(b2[1], b[1]);
+        }
+        #endregion
+
+        #region string <=> Base64
+        [TestMethod]
+        public void TestBase64()
+        {
+            string str = "abc";
+            string base64 = StringExtends.Base64Encode(str);
+            string result;
+            Assert.IsTrue(StringExtends.TryBase64Decode(base64, out result));
+            Assert.AreEqual(str, result);
         }
         #endregion
         #endregion

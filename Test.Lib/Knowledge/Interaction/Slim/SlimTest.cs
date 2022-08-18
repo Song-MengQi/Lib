@@ -14,7 +14,8 @@ namespace Test.Lib
             Slim slim = new Slim();
 
             //创建一个等待者
-            ManualResetEventSlim manualResetEventSlim = slim.Add();
+            ManualResetEventSlim manualResetEventSlim = new ManualResetEventSlim(false);
+            slim.Add(manualResetEventSlim);
             //应该没有等到结果
             Assert.IsFalse(manualResetEventSlim.IsSet);
 

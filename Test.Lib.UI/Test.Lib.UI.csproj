@@ -41,7 +41,9 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -56,14 +58,20 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Direction\DirectionExtendsTest.cs" />
-    <Compile Include="Direction\DirectionExtendTest.cs" />
+    <Compile Include="Knowledge\Extends\ColorExtendsTest.cs" />
+    <Compile Include="Knowledge\Extends\ObservableCollectionExtend.cs" />
+    <Compile Include="Knowledge\Extends\DirectionExtendsTest.cs" />
+    <Compile Include="Knowledge\Extends\DirectionExtendTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib.UI\Lib.UI.csproj">
       <Project>{7feac96c-b8e7-4395-b5d7-5ad9f4c2a3f7}</Project>
       <Name>Lib.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lib\Lib.csproj">
+      <Project>{dce42aa6-898f-41d9-9573-be605519086e}</Project>
+      <Name>Lib</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

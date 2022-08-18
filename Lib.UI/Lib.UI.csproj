@@ -51,12 +51,33 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Control\ClippingBorder.cs" />
     <Compile Include="Control\CloseButton.xaml.cs">
       <DependentUpon>CloseButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Control\Cross.xaml.cs">
       <DependentUpon>Cross.xaml</DependentUpon>
     </Compile>
+    <None Include="Control\DateTime\DateTimePicker\DataGridCellPicker%28NoUse%29.cs" />
+    <Compile Include="Control\DateTime\TimePicker\TimePicker.xaml.cs">
+      <DependentUpon>TimePicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\DateTime\TimePicker\TimeView.xaml.cs">
+      <DependentUpon>TimeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\DateTime\DateTimePicker\DateTimePicker.xaml.cs">
+      <DependentUpon>DateTimePicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\DateTime\DateTimePicker\DateTimeView.xaml.cs">
+      <DependentUpon>DateTimeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\DateTime\GridPicker.xaml.cs">
+      <DependentUpon>GridPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\ValueControl\ValueControl.xaml.cs">
+      <DependentUpon>ValueControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\ValueControl\ValueControlContext.cs" />
     <Compile Include="Control\MaximizeButton.xaml.cs">
       <DependentUpon>MaximizeButton.xaml</DependentUpon>
     </Compile>
@@ -69,20 +90,27 @@
     </Compile>
     <Compile Include="Knowledge\Color\HSL.cs" />
     <Compile Include="Knowledge\Color\RGB.cs" />
+    <Compile Include="Knowledge\Converter\LanguageConverter.cs" />
+    <Compile Include="Knowledge\Converter\SumConvert.cs" />
     <Compile Include="Knowledge\Direction.cs" />
     <Compile Include="Knowledge\Durations.cs" />
+    <Compile Include="Knowledge\Extends\UserControlExtends%28NoUse%29.cs" />
     <Compile Include="Knowledge\Extends\ColorExtend.cs" />
     <Compile Include="Knowledge\Extends\ColorExtends.cs" />
+    <Compile Include="Knowledge\Extends\DataGridExtend.cs" />
     <Compile Include="Knowledge\Extends\DirectionExtend.cs" />
     <Compile Include="Knowledge\Extends\DirectionExtends.cs" />
     <Compile Include="Knowledge\Extends\HSLExtend.cs" />
     <Compile Include="Knowledge\Extends\IconExtend.cs" />
+    <Compile Include="Knowledge\Extends\IconExtends.cs" />
     <Compile Include="Knowledge\Extends\ObservableCollectionExtend.cs" />
     <Compile Include="Knowledge\Extends\ResourceDictionaryExtend.cs" />
+    <Compile Include="Knowledge\Extends\ResourceExtends.cs" />
     <Compile Include="Knowledge\Extends\SolidColorBrushExtend.cs" />
     <Compile Include="Knowledge\Extends\StyleExtends.cs" />
     <Compile Include="Knowledge\Extends\UIElementExtend.cs" />
     <Compile Include="Knowledge\Extends\VisibilityExtends.cs" />
+    <Compile Include="Knowledge\Extends\VisualExtend.cs" />
     <Compile Include="Knowledge\Extends\WindowExtend.cs" />
     <Compile Include="Knowledge\Icon\Icon.cs" />
     <Compile Include="Knowledge\Icon\IconAttribute.cs" />
@@ -101,6 +129,34 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Control\Cross.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <None Include="Control\DateTime\DateTimePicker\DataGridCellPicker%28NoUse%29.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <Page Include="Control\DateTime\TimePicker\TimePicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Control\DateTime\TimePicker\TimeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Control\DateTime\DateTimePicker\DateTimePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\DateTime\DateTimePicker\DateTimeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\DateTime\GridPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\ValueControl\ValueControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -182,5 +238,6 @@
   <ItemGroup>
     <Resource Include="Style\Font\fontawesome-webfont.ttf" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

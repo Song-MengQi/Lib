@@ -34,9 +34,14 @@ namespace Lib
             get { return subDirectory; }
             set
             {
-                if (default(string) == value ||
-                    string.IsNullOrWhiteSpace(value = value.Trim(Path.DirectorySeparatorChar)))
-                    value = SubDirectoryDefault;
+                #region old
+                //if (default(string) == value ||
+                //    string.IsNullOrWhiteSpace(value = value.Trim(Path.DirectorySeparatorChar)))
+                //    value = SubDirectoryDefault;
+                #endregion
+                value = default(string) == value
+                    ? SubDirectoryDefault
+                    : value.Trim(Path.DirectorySeparatorChar);
                 if (value != subDirectory)
                 {
                     subDirectory = value;

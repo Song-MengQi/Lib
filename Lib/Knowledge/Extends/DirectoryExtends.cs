@@ -6,16 +6,21 @@ namespace Lib
 {
     public static class DirectoryExtends
     {
-        public static void DeleteIfExists(string directoryName)
+        public static void EnsureNotExist(string directoryName)
         {
             if (Directory.Exists(directoryName)) Directory.Delete(directoryName, true);
+        }
+        public static void EnsureExist(string directoryName)
+        {
+            if (false == Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
         }
         public static void Copy(string src, string dest)
         {
             src = src.TrimEnd(Path.DirectorySeparatorChar);
             dest = dest.TrimEnd(Path.DirectorySeparatorChar);
             if (false == Directory.Exists(src)) return;
-            if (false == Directory.Exists(dest)) Directory.CreateDirectory(dest);
+            if (Path.GetFullPath(src) == Path.GetFullPath(dest)) return;
+            EnsureExist(dest);//if (false == Directory.Exists(dest)) Directory.CreateDirectory(dest);
 
             string[] subSrcs = Directory.GetDirectories(src);
             foreach (string subSrc in subSrcs)
@@ -38,7 +43,8 @@ namespace Lib
             src = src.TrimEnd(Path.DirectorySeparatorChar);
             dest = dest.TrimEnd(Path.DirectorySeparatorChar);
             if (false == Directory.Exists(src)) return;
-            if (false == Directory.Exists(dest)) Directory.CreateDirectory(dest);
+            if (Path.GetFullPath(src) == Path.GetFullPath(dest)) return;
+            EnsureExist(dest);//if (false == Directory.Exists(dest)) Directory.CreateDirectory(dest);
 
             string[] subSrcs = Directory.GetDirectories(src);
             foreach (string subSrc in subSrcs)
@@ -50,7 +56,7 @@ namespace Lib
             foreach (string fileSrc in fileSrcs)
             {
                 string destFileName = dest + fileSrc.Substring(src.Length);
-                if (File.Exists(destFileName)) File.Delete(destFileName);
+                FileExtends.EnsureNotExist(destFileName);//if (File.Exists(destFileName)) File.Delete(destFileName);
                 File.Move(fileSrc, destFileName);
             }
 
@@ -64,7 +70,7 @@ namespace Lib
         public static void SafeMove(string src, string dest)
         {
             Copy(src, dest);
-            DeleteIfExists(src);
+            EnsureNotExist(src);
         }
         public static long GetSize(string directoryName)
         {

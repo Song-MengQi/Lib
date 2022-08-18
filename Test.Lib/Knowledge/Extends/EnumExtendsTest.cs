@@ -12,6 +12,12 @@ namespace Test.Lib
             Bb,
             Cc
         }
+        private enum TestEnum2 : byte
+        {
+            Aa,
+            Bb,
+            Cc
+        }
         [TestMethod]
         public void TestParse()
         {
@@ -28,8 +34,8 @@ namespace Test.Lib
             Assert.AreEqual(EnumExtends.ToObject<TestEnum>(""), default(TestEnum));
             Assert.AreEqual(EnumExtends.ToObject<TestEnum>("1"), TestEnum.Bb);
             Assert.AreEqual(EnumExtends.ToObject<TestEnum>(1), TestEnum.Bb);
-            byte byte1 = 1;
-            Assert.AreEqual(EnumExtends.ToObject<TestEnum>(byte1), TestEnum.Bb);
+            //byte类型的对象只能用于Byte类型的枚举
+            Assert.AreEqual(EnumExtends.ToObject<TestEnum2>((byte)1), TestEnum2.Bb);
             Assert.AreEqual(EnumExtends.ToObject<TestEnum>(999), default(TestEnum));
         }
         [TestMethod]

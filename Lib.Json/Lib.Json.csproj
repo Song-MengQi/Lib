@@ -44,9 +44,10 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Jsons.cs" />
+    <Compile Include="Knowledge\Extends\JsonExtends.cs" />
     <Compile Include="Knowledge\Extends\FileExtends.cs" />
     <Compile Include="Knowledge\Storage\ConfigBase.cs" />
+    <Compile Include="Knowledge\Storage\IStorage.cs" />
     <Compile Include="Knowledge\Storage\StorageBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

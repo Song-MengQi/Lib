@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Lib.UI
@@ -9,6 +10,21 @@ namespace Lib.UI
         protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             if (default(PropertyChangedEventHandler) != PropertyChanged) PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        protected virtual bool SetProperty<TValue>(ref TValue oldValue, TValue newValue, [CallerMemberName] string propertyName = null)
+        {
+            if (object.Equals(oldValue, newValue)) return false;
+            oldValue = newValue;
+            NotifyPropertyChanged(propertyName);
+            return true;
+        }
+        protected virtual bool SetProperty<TValue>(ref TValue oldValue, TValue newValue, Action changedAction, [CallerMemberName] string propertyName = null)
+        {
+            if (object.Equals(oldValue, newValue)) return false;
+            oldValue = newValue;
+            ActionExtends.Invoke(changedAction);
+            NotifyPropertyChanged(propertyName);
+            return true;
         }
     }
     public abstract class NotifyPropertyChangedBase<T> : NotifyPropertyChangedBase

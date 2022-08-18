@@ -10,12 +10,12 @@
         }
         public static HSL Saturate(this HSL hsl, double amount)
         {
-            hsl.Saturation = JustifySaturation(hsl.Saturation + amount);
+            hsl.S = JustifySaturation(hsl.S + amount);
             return hsl;
         }
         public static HSL Desaturate(this HSL hsl, double amount)
         {
-            hsl.Saturation = JustifySaturation(hsl.Saturation - amount);
+            hsl.S = JustifySaturation(hsl.S - amount);
             return hsl;
         }
         private static double JustifyLightness(double amount)
@@ -26,12 +26,12 @@
         }
         public static HSL Lighten(this HSL hsl, double amount)
         {
-            hsl.Lightness = JustifyLightness(hsl.Lightness + amount);
+            hsl.L = JustifyLightness(hsl.L + amount);
             return hsl;
         }
         public static HSL Darken(this HSL hsl, double amount)
         {
-            hsl.Lightness = JustifyLightness(hsl.Lightness - amount);
+            hsl.L = JustifyLightness(hsl.L - amount);
             return hsl;
         }
     }

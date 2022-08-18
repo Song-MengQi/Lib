@@ -11,7 +11,7 @@ namespace Test.Lib
         }
         public static void DeleteData()
         {
-            DirectoryExtends.DeleteIfExists("Data");
+            DirectoryExtends.EnsureNotExist("Data");
         }
     }
     public abstract class TestBase<T> : TestBase

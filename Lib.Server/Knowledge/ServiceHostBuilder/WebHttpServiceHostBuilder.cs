@@ -13,7 +13,7 @@ namespace Lib.Server
 
             ServiceEndpoint serviceEndpoint = new ServiceEndpoint(
                 ContractDescription.GetContract(contractType, serviceType),
-                Bindings.JsonBinding,
+                Bindings.WebHttpBinding,
                 new EndpointAddress(Config.GetServerWebHttpAddress(contractType))
             );
             serviceEndpoint.EndpointBehaviors.Add(jsonBehavior);
@@ -21,7 +21,7 @@ namespace Lib.Server
             //serviceHost.AddServiceEndpoint(serviceEndpoint);
             //等同于
             serviceHost.Description.Endpoints.Add(serviceEndpoint);
-
+            WebServerExtends.RegisterHttpHeaderAttribute(contractType);
             return serviceHost;
         }
     }

@@ -7,6 +7,31 @@ namespace Lib
 {
     public static class AssemblyExtends
     {
+        #region 确保依赖树都加载完毕
+        //例如：A<-B
+        //由于dll加载是动态的，只有当B用到A时，才会把程序集加载到程序域
+        //即使存在B显示地引用A，主要没执行到也不加载。
+        //通过AppDomain.CurrentDomain.GetAssemblies()只能获取当前已加载的
+        private static void Load(Assembly assembly, HashSet<string> loadedAssembliesHashSet, Func<AssemblyName, bool> func = default(Func<AssemblyName, bool>))
+        {
+            if (ObjectExtends.EqualsDefault(assembly)) return;
+            if (loadedAssembliesHashSet.Contains(assembly.FullName)) return;
+            loadedAssembliesHashSet.Add(assembly.FullName);
+            #region Version1
+            //assembly.GetReferencedAssemblies()
+            //    .Foreach(assemblyName=>{
+            //        if (FuncExtends.Invoke(func, assemblyName)) Load(Assembly.Load(assemblyName), loadedAssembliesHashSet, func);
+            //    });
+            #endregion
+            AssemblyName[] assemblyNames = assembly.GetReferencedAssemblies();
+            if (default(Func<AssemblyName, bool>) != func) assemblyNames = assemblyNames.Where(func).ToArray();
+            assemblyNames.Foreach(assemblyName=>Load(Assembly.Load(assemblyName), loadedAssembliesHashSet, func));
+        }
+        public static void Load(Func<AssemblyName, bool> func = default(Func<AssemblyName, bool>))
+        {
+            Load(Assembly.GetEntryAssembly(), new HashSet<string>(), func);
+        }
+        #endregion
         #region 只取直接引用
         //public static Assembly[] GetAssembliesByReferencedDirectly(string assemblyFullName)
         //{
@@ -16,8 +41,18 @@ namespace Lib
         //}
         #endregion
         #region 也包括间接引用
+        #region 这样有Bug，因为加载到程序域的时机
         //若一开始就加载全部所需dll，则此后不会有变化
-        public static Assembly[] Assemblies = AppDomain.CurrentDomain.GetAssemblies();
+        //public static Assembly[] Assemblies = AppDomain.CurrentDomain.GetAssemblies();
+        #endregion
+        private static readonly Lockton<Assembly[]> assembliesLockton = new Lockton<Assembly[]>();
+        public static Assembly[] Assemblies//确保调用过Load之后再用它
+        {
+            get
+            {
+                return assembliesLockton.GetInstance(()=>AppDomain.CurrentDomain.GetAssemblies());
+            }
+        }
         public static Assembly[] GetAssembliesByReferencedDirectly(string assemblyFullName)
         {
             Assembly[] directAssemblies = Assemblies

@@ -694,5 +694,24 @@ namespace Test.Lib
             Assert.AreEqual(result.Data, default(int[]));
         }
         #endregion
+
+        [TestMethod]
+        public void TestCreate()
+        {
+            Assert.AreEqual(ResultState.Success, ResultExtends.Create().State);
+
+            Result<int> result = ResultExtends.Create(9);
+            Assert.AreEqual(ResultState.Success, result.State);
+            Assert.AreEqual(9, result.Data);
+
+            ResultExtends.Create(1);
+            ResultExtends.Create(1, 2);
+            ResultExtends.Create(1, 2, 3);
+            ResultExtends.Create(1, 2, 3, 4);
+            ResultExtends.Create(1, 2, 3, 4, 5);
+            ResultExtends.Create(1, 2, 3, 4, 5, 6);
+            ResultExtends.Create(1, 2, 3, 4, 5, 6, 7);
+            ResultExtends.Create(1, 2, 3, 4, 5, 6, 7, 8);
+        }
     }
 }

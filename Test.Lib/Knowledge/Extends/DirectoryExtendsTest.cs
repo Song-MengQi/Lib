@@ -1,6 +1,6 @@
-﻿using System.IO;
-using Lib;
+﻿using Lib;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.IO;
 
 namespace Test.Lib
 {
@@ -22,8 +22,10 @@ namespace Test.Lib
             Directory.CreateDirectory("A/AA");
             File.WriteAllText("A/AA/2.txt", str2);
 
+            DirectoryExtends.Copy("A", "A");
+            DirectoryExtends.Move("A", "A");
 
-            DirectoryExtends.DeleteIfExists("B");
+            DirectoryExtends.EnsureNotExist("B");
             Assert.AreEqual(DirectoryExtends.GetSize("A"), str1.Length + str2.Length);
             Assert.AreEqual(DirectoryExtends.GetSize("B"), 0L);
             Assert.IsFalse(Directory.Exists("B"));
@@ -42,8 +44,14 @@ namespace Test.Lib
             Assert.IsFalse(Directory.Exists("B"));
             Assert.IsTrue(Directory.Exists("A"));
 
-            DirectoryExtends.DeleteIfExists("A");
+            DirectoryExtends.Move("A", "B");
             Assert.IsFalse(Directory.Exists("A"));
+            Assert.IsTrue(Directory.Exists("B"));
+
+            DirectoryExtends.Move("A", "B");
+
+            DirectoryExtends.EnsureNotExist("B");
+            Assert.IsFalse(Directory.Exists("B"));
         }
     }
 }

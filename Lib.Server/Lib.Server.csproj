@@ -44,17 +44,23 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Client\Clients.cs" />
+    <Compile Include="Knowledge\Attribute\HttpHeaderAttribute\HttpHeaderAttributeBase.cs" />
+    <Compile Include="Knowledge\Attribute\HttpHeaderAttribute\ResponseHttpHeaderAttribute.cs" />
+    <Compile Include="Knowledge\Attribute\HttpHeaderAttribute\RequestHttpHeaderAttribute.cs" />
+    <Compile Include="Knowledge\Const\Values.cs" />
+    <Compile Include="Knowledge\Extends\ClientExtends.cs" />
     <Compile Include="Config\Config.cs" />
     <Compile Include="Knowledge\Binding\Bindings.cs" />
-    <Compile Include="Knowledge\Const\WebHeaderKeys.cs" />
-    <Compile Include="Knowledge\Const\WebHeaderValues\AccessControlAllowOriginValues.cs" />
-    <Compile Include="Knowledge\Const\WebHeaderValues\CacheControlValues.cs" />
-    <Compile Include="Knowledge\Const\WebHeaderValues\ContentTypeValues.cs" />
-    <Compile Include="Knowledge\Const\WebHeaderValues\UserAgentValues.cs" />
+    <Compile Include="Knowledge\Const\HttpHeaderKeys.cs" />
+    <Compile Include="Knowledge\Const\HttpHeaderValues\AccessControlAllowOriginValues.cs" />
+    <Compile Include="Knowledge\Const\HttpHeaderValues\CacheControlValues.cs" />
+    <Compile Include="Knowledge\Const\HttpHeaderValues\ContentTypeValues.cs" />
+    <Compile Include="Knowledge\Const\HttpHeaderValues\UserAgentValues.cs" />
+    <Compile Include="Knowledge\Enum\BindingType.cs" />
     <Compile Include="Knowledge\Extends\ConfigExtend.cs" />
     <Compile Include="Knowledge\Extends\IServerExtend.cs" />
-    <Compile Include="Knowledge\Extends\LibServerStringExtends.cs" />
+    <Compile Include="Knowledge\Extends\MessageExtend.cs" />
+    <Compile Include="Knowledge\Extends\ServerExtends.cs" />
     <Compile Include="Knowledge\Json\JsonBehavior.cs" />
     <Compile Include="Knowledge\Json\RawWebContentTypeMapper.cs" />
     <Compile Include="Knowledge\Json\JsonDispatchFormatter.cs" />
@@ -66,8 +72,9 @@
     <Compile Include="Knowledge\ServiceHostBuilder\WebHttpServiceHostBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\IServer.cs" />
+    <Compile Include="Server\Server.cs" />
     <Compile Include="Server\ServerBase.cs" />
-    <Compile Include="Server\Servers.cs" />
+    <Compile Include="Knowledge\Extends\WebServerExtends.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Data\Default\Config\Lib.Server.Config.json">

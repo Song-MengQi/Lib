@@ -8,7 +8,7 @@ namespace Lib.Timer
         public TimeSpan PeriodDuration { get; set; }
         public Config() : base()
         {
-            PeriodDuration = TimeSpan.FromSeconds(1);//默认周期粒度为1秒
+            PeriodDuration = TimeSpan.FromSeconds(1d);//默认周期粒度为1秒
         }
     }
 }

@@ -36,12 +36,12 @@ namespace Test.Lib
             instance.InvokeAsync(default(Func<int>));
             instance.Invoke(default(Action));
             instance.Invoke(default(Func<int>));
-            instance.Invoke(() => { });
+            instance.Invoke(()=>{});
 
 
             instance.Pause();
             instance.Continue();
-            instance.Wait();
+            instance.WaitForRun();
             instance.Clear();
             instance.Dispose();
         }

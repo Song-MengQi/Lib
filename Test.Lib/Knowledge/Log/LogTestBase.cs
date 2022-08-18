@@ -8,9 +8,5 @@ namespace Test.Lib
         where T : LogBase, IT, new()
         where IT : ILog
     {
-        public virtual void TestAppend()
-        {
-            Instance.Append(GetType().Name);
-        }
     }
 }

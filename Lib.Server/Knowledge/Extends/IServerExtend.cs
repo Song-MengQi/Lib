@@ -10,16 +10,35 @@ namespace Lib.Server
             string contractName = "I" + serviceType.Name;
             return serviceType.GetInterfaces().Single(contractType => contractType.Name == contractName && contractType.Namespace == serviceType.Namespace);
         }
-        public static void Register<TService>(this IServer server)
+
+        public static void Register<TService>(this IServer server, BindingType bindingType)
         {
             Type serviceType = typeof(TService);
-            server.ServiceTypeDic.Add(serviceType, GetDefaultContractType(serviceType));
+            server.ServiceItemList.Add(new ServiceItem {
+                ServiceType = serviceType,
+                ContractType = GetDefaultContractType(serviceType),
+                BindingType = bindingType
+            });
+        }
+        public static void Register<TService, ITService>(this IServer server, BindingType bindingType)
+            where TService : ITService, new()
+        {
+            server.ServiceItemList.Add(new ServiceItem {
+                ServiceType = typeof(TService),
+                ContractType = typeof(ITService),
+                BindingType = bindingType
+            });
+            IoC<ITService>.SetInstance<TService>();
+        }
+
+        public static void Register<TService>(this IServer server)
+        {
+            server.Register<TService>(ServerExtends.GetDefaultServiceType(typeof(TService)));
         }
         public static void Register<TService, ITService>(this IServer server)
             where TService : ITService, new()
         {
-            server.ServiceTypeDic.Add(typeof(TService), typeof(ITService));
-            IoC<ITService>.SetInstance<TService>();
+            server.Register<TService, ITService>(ServerExtends.GetDefaultServiceType(typeof(TService)));
         }
     }
 }

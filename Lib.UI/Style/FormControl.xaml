@@ -696,6 +696,13 @@
         </Setter>
     </Style>
     <Style BasedOn="{StaticResource RadioButtonBaseStyle}" TargetType="{x:Type RadioButton}"/>
+    <Style x:Key="radio-primary" BasedOn="{StaticResource RadioButtonBaseStyle}" TargetType="{x:Type RadioButton}">
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="true">
+                <Setter Property="BorderBrush" Value="{DynamicResource Foreground-Primary2}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
     <Style x:Key="radio has-success" BasedOn="{StaticResource RadioButtonBaseStyle}" TargetType="{x:Type RadioButton}">
         <Setter Property="BorderBrush" Value="{DynamicResource Foreground-Success}"/>
         <Setter Property="Foreground" Value="{DynamicResource Foreground-Success}"/>
@@ -708,8 +715,6 @@
         <Setter Property="BorderBrush" Value="{DynamicResource Foreground-Danger}"/>
         <Setter Property="Foreground" Value="{DynamicResource Foreground-Danger}"/>
     </Style>
-
-
 
     <!--DataGridCheckBoxCenter-->
     <Style x:Key="DataGridCheckBoxCenter" BasedOn="{StaticResource checkbox-primary}" TargetType="{x:Type CheckBox}">

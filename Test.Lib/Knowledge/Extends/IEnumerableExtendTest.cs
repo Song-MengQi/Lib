@@ -1,8 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Lib;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections;
-using System.Linq;
-using Lib;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Test.Lib
 {
@@ -24,23 +25,55 @@ namespace Test.Lib
             Assert.IsTrue(new int[] { 1, 2, -1 }.Any((x, i) => x > 0));
         }
         [TestMethod]
-        public void TestOrderBy()
+        public void TestOrder()
         {
-            int[] source;
-            int[] result;
-            source = new int[]{2,1,3};
+            int[] source = new int[] {2,1,3};
+            int[] result = default(int[]);
+
+            Action assertAction = ()=>{
+                Assert.AreEqual(result.Length, source.Length);
+                Assert.AreEqual(result[0], 1);
+                Assert.AreEqual(result[1], 2);
+                Assert.AreEqual(result[2], 3);
+
+            };
+            Action assertDescAction = ()=>{
+                Assert.AreEqual(result.Length, source.Length);
+                Assert.AreEqual(result[0], 3);
+                Assert.AreEqual(result[1], 2);
+                Assert.AreEqual(result[2], 1);
+            };
+            #region Order
+            result = source.Order().ToArray();
+            assertAction();
+            result = source.Order(Comparer<int>.Default).ToArray();
+            assertAction();
+            result = source.Order(false).ToArray();
+            assertAction();
+            result = source.Order(Comparer<int>.Default, false).ToArray();
+            assertAction();
+
+            result = source.OrderDescending().ToArray();
+            assertDescAction();
+            result = source.OrderDescending(Comparer<int>.Default).ToArray();
+            assertDescAction();
+            result = source.Order(true).ToArray();
+            assertDescAction();
+            result = source.Order(Comparer<int>.Default, true).ToArray();
+            assertDescAction();
+            #endregion
+
+            #region OrderBy
+            result = source.OrderBy(i=>i, false).ToArray();
+            assertAction();
+            result = source.OrderBy(i=>i, Comparer<int>.Default, false).ToArray();
+            assertAction();
 
             result = source.OrderBy(i=>i, true).ToArray();
-            Assert.AreEqual(result.Length, source.Length);
-            Assert.AreEqual(result[0], 3);
-            Assert.AreEqual(result[1], 2);
-            Assert.AreEqual(result[2], 1);
-
-            result = source.OrderBy(i => i, false).ToArray();
-            Assert.AreEqual(result.Length, source.Length);
-            Assert.AreEqual(result[0], 1);
-            Assert.AreEqual(result[1], 2);
-            Assert.AreEqual(result[2], 3);
+            assertDescAction();
+            result = source.OrderBy(i=>i, Comparer<int>.Default, true).ToArray();
+            assertDescAction();
+            #endregion
         }
         [TestMethod]
         public void TestTop()
@@ -160,6 +193,20 @@ namespace Test.Lib
             Assert.AreEqual(new ulong[] { 1ul, 2ul, 3ul }.Sum(), 6ul);
         }
         [TestMethod]
+        public void TestToDictionary()
+        {
+            KeyValuePair<int, uint>[] kvs = new KeyValuePair<int, uint>[] {
+                KeyValuePairExtends.Create(1, 1u),
+                KeyValuePairExtends.Create(2, 2u),
+                KeyValuePairExtends.Create(3, 3u),
+            };
+            Dictionary<int, uint> dic = kvs.ToDictionary();
+            Assert.AreEqual(dic.Count, 3);
+            Assert.AreEqual(dic[1], 1u);
+            Assert.AreEqual(dic[2], 2u);
+            Assert.AreEqual(dic[3], 3u);
+        }
+        [TestMethod]
         public void TestToListDictionary()
         {
             int[] ints = new int[0];
@@ -181,6 +228,18 @@ namespace Test.Lib
             Assert.AreEqual(dic2[1], "1");
             Assert.AreEqual(dic2[2], "2");
             Assert.AreEqual(dic2[3], "3");
+
+
+            KeyValuePair<int, uint>[] kvs = new KeyValuePair<int, uint>[] {
+                KeyValuePairExtends.Create(1, 1u),
+                KeyValuePairExtends.Create(2, 2u),
+                KeyValuePairExtends.Create(3, 3u),
+            };
+            ListDictionary<int, uint> dic = kvs.ToListDictionary();
+            Assert.AreEqual(dic.Count, 3);
+            Assert.AreEqual(dic[1], 1u);
+            Assert.AreEqual(dic[2], 2u);
+            Assert.AreEqual(dic[3], 3u);
         }
         [TestMethod]
         public void TestX()

@@ -22,14 +22,19 @@ namespace Test.Lib
             PathManager.DirectoryChangedAction += () => ++x;
             PathManager.SubDirectory = "B";
             Assert.AreEqual(PathManager.Directory, @"Data\B");
+            Assert.AreEqual(PathManager.DirectoryChangedAction, default(Action));
             Assert.AreEqual(x, 1);
 
             PathManager.SubDirectory = "\\";
-            Assert.AreEqual(PathManager.Directory, PathManager.DirectoryDefault);
+            Assert.AreEqual(PathManager.Directory, PathManager.DataDirectory);
             Assert.AreEqual(x, 1);
 
             PathManager.SubDirectory = string.Empty;
+            Assert.AreEqual(PathManager.Directory, PathManager.DataDirectory);
+
+            PathManager.SubDirectory = default(string);
             Assert.AreEqual(PathManager.Directory, PathManager.DirectoryDefault);
+            Assert.AreEqual(PathManager.SubDirectory, PathManager.SubDirectoryDefault);
         }
     }
 }

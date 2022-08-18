@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Lib
 {
-    public static class IEnumerableExtend
+    public static partial class IEnumerableExtend
     {
         public static bool All<TSource>(this IEnumerable<TSource> sources, Func<TSource, int, bool> predicate)
         {
@@ -25,10 +25,40 @@ namespace Lib
             }
             return false;
         }
+        #region Order
+        public static IOrderedEnumerable<TSource> Order<TSource>(this IEnumerable<TSource> sources)
+        {
+            return sources.OrderBy(source=>source);
+        }
+        public static IOrderedEnumerable<TSource> Order<TSource>(this IEnumerable<TSource> sources, IComparer<TSource> comparer)
+        {
+            return sources.OrderBy(source=>source, comparer);
+        }
+        public static IOrderedEnumerable<TSource> OrderDescending<TSource>(this IEnumerable<TSource> sources)
+        {
+            return sources.OrderByDescending(source=>source);
+        }
+        public static IOrderedEnumerable<TSource> OrderDescending<TSource>(this IEnumerable<TSource> sources, IComparer<TSource> comparer)
+        {
+            return sources.OrderByDescending(source=>source, comparer);
+        }
+        public static IOrderedEnumerable<TSource> Order<TSource>(this IEnumerable<TSource> sources, bool desc)
+        {
+            return desc ? sources.OrderDescending() : sources.Order();
+        }
+        public static IOrderedEnumerable<TSource> Order<TSource>(this IEnumerable<TSource> sources, IComparer<TSource> comparer, bool desc)
+        {
+            return desc ? sources.OrderDescending(comparer) : sources.Order(comparer);
+        }
         public static IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(this IEnumerable<TSource> sources, Func<TSource, TKey> keySelector, bool desc)
         {
             return desc ? sources.OrderByDescending(keySelector) : sources.OrderBy(keySelector);
         }
+        public static IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(this IEnumerable<TSource> sources, Func<TSource, TKey> keySelector, IComparer<TKey> comparer, bool desc)
+        {
+            return desc ? sources.OrderByDescending(keySelector, comparer) : sources.OrderBy(keySelector, comparer);
+        }
+        #endregion
         public static TSource Top<TSource>(this IEnumerable<TSource> sources, Func<TSource, TSource, bool> compare)
         {
             if (sources.Count() < 1) return default(TSource);
@@ -182,6 +212,10 @@ namespace Lib
         {
             return (ulong)sources.Sum(source => (long)source);
         }
+        public static Dictionary<TKey, TSource> ToDictionary<TKey, TSource>(this IEnumerable<KeyValuePair<TKey, TSource>> sources)
+        {
+            return sources.ToDictionary(kv=>kv.Key, kv=>kv.Value);
+        }
 
         public static IEnumerable<T> Generalize<T>(this IEnumerable source)
         {
@@ -215,6 +249,10 @@ namespace Lib
                 dic.Add(keySelector(source), elementSelector(source));
             }
             return dic;
+        }
+        public static ListDictionary<TKey, TSource> ToListDictionary<TKey, TSource>(this IEnumerable<KeyValuePair<TKey, TSource>> sources)
+        {
+            return sources.ToListDictionary(kv=>kv.Key, kv=>kv.Value);
         }
     }
     //public static partial class EnumerableExtend

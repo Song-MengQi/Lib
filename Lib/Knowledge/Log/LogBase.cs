@@ -3,18 +3,14 @@
     public abstract class LogBase : ILog
     {
         protected abstract string FileName { get; }
-        protected readonly ISerializable serializable;
-        protected LogBase()
-        {
-            serializable = new Serializable();
-        }
-        protected void AppendDirectly(string log)
+        private readonly ISerializable serializable = new Serializable();
+        protected virtual void AppendLineDirectly(string log)
         {
             FileExtends.AppendLine(FileName, log);
         }
-        public virtual void Append(string log)
+        protected void AppendLine(string log)
         {
-            serializable.InvokeBackground(() => AppendDirectly(log));
+            serializable.InvokeBackground(()=>AppendLineDirectly(log));
         }
     }
 }

@@ -37,6 +37,8 @@ namespace Test.Lib
             Task.WaitAll(tasks);
             Assert.IsFalse(instance.IsRunning);
             Assert.AreEqual(instance.Invoke(()=>x), row * col);
+
+            autoResetEvent.Dispose();
         }
     }
 }

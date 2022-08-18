@@ -21,8 +21,8 @@ namespace Test.Lib
             ThreadPoolExtends.WorkerThreadCount = Environment.ProcessorCount - 1;
             Assert.AreEqual(ThreadPoolExtends.WorkerThreadCount, Environment.ProcessorCount);
             //最大值就不试了
-            //ThreadPoolExtends.WorkerThreadCount = (int)short.MaxValue + 1;
-            //Assert.AreEqual(ThreadPoolExtends.WorkerThreadCount, short.MaxValue);
+            ThreadPoolExtends.WorkerThreadCount = (int)short.MaxValue + 1;
+            Assert.AreEqual(ThreadPoolExtends.WorkerThreadCount, short.MaxValue);
 
             //再改回来
             ThreadPoolExtends.WorkerThreadCountMin = Environment.ProcessorCount;

@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\Config.cs" />
+    <Compile Include="Knowledge\Extends\TimingOptions.cs" />
     <Compile Include="Knowledge\Extends\TotalTimerExtends.cs" />
     <Compile Include="Knowledge\Refresher\TimingRefresher\ITimingRefresher.cs" />
     <Compile Include="Knowledge\Refresher\TimingRefresher\LazyTimingRefresher\ILazyTimingRefresher.cs" />

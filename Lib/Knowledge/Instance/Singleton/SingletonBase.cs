@@ -9,15 +9,15 @@ namespace Lib
         private static IT instance = default(T);
         public static void SetInstance(Func<IT> func)
         {
-            lockable.Invoke(() => instance = func());
+            lockable.Invoke(()=>instance = func());
         }
         public static IT GetInstance(Func<IT> func)
         {
-            return ObjectExtends.DefaultThen(instance, () => lockable.Invoke(() => ObjectExtends.DefaultThen(instance, ()=>instance = func())));
+            return ObjectExtends.DefaultThen(instance, ()=>lockable.Invoke(()=>ObjectExtends.DefaultThen(instance, ()=>instance = func())));
         }
         public static IT Instance
         {
-            get { return GetInstance(()=> new T()); }
+            get { return GetInstance(()=>new T()); }
             set { SetInstance(()=>value); }
         }
         public static void UnsetInstance() { Instance = default(T); }
@@ -30,16 +30,16 @@ namespace Lib
         private static T instance = default(T);
         public static void SetInstance(Func<T> func)
         {
-            lockable.Invoke(() => instance = func());
+            lockable.Invoke(()=>instance = func());
         }
         public static T GetInstance(Func<T> func)
         {
-            return ObjectExtends.DefaultThen(instance, () => lockable.Invoke(() => ObjectExtends.DefaultThen(instance, () => instance = func())));
+            return ObjectExtends.DefaultThen(instance, ()=>lockable.Invoke(()=>ObjectExtends.DefaultThen(instance, ()=>instance = func())));
         }
         public static T Instance
         {
-            get { return GetInstance(() => new T()); }
-            set { SetInstance(() => value); }
+            get { return GetInstance(()=>new T()); }
+            set { SetInstance(()=>value); }
         }
         public static void UnsetInstance() { Instance = default(T); }
         public static bool Exist { get { return false == ObjectExtends.EqualsDefault(instance); } }

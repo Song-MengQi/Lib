@@ -33,6 +33,8 @@ namespace Test.Lib
             Assert.AreEqual(x, 1);
 
             Assert.AreEqual(instance.Invoke(() => ++x), 2);
+
+            autoResetEvent.Dispose();
         }
     }
 }

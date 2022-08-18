@@ -7,6 +7,7 @@ namespace Lib.UI
 {
     public static class ObservableCollectionExtend
     {
+        //按照ts的顺序排序
         private static void Sort<T>(this ObservableCollection<T> observableCollection, T[] ts)
         {
             for (int i = 0; i < observableCollection.Count; ++i)
@@ -16,19 +17,21 @@ namespace Lib.UI
                 observableCollection.Move(j, i);
             }
         }
-        public static void Sort<T>(this ObservableCollection<T> observableCollection, IComparer<T> comparer)
+        public static void Sort<T>(this ObservableCollection<T> observableCollection, bool desc = false)
         {
-            T[] ts = observableCollection.ToArray();
-            Array.Sort(ts, comparer);
-            observableCollection.Sort(ts);
+            observableCollection.Sort(observableCollection.Order(desc).ToArray());
         }
-        public static void Sort<T>(this ObservableCollection<T> observableCollection)
+        public static void Sort<T>(this ObservableCollection<T> observableCollection, IComparer<T> comparer, bool desc = false)
         {
-            observableCollection.Sort(Comparer<T>.Default);
+            observableCollection.Sort(observableCollection.Order(comparer, desc).ToArray());
         }
         public static void SortBy<T, TKey>(this ObservableCollection<T> observableCollection, Func<T, TKey> keySelector, bool desc = false)
         {
             observableCollection.Sort(observableCollection.OrderBy(keySelector, desc).ToArray());
+        }
+        public static void SortBy<T, TKey>(this ObservableCollection<T> observableCollection, Func<T, TKey> keySelector, IComparer<TKey> comparer, bool desc = false)
+        {
+            observableCollection.Sort(observableCollection.OrderBy(keySelector, comparer, desc).ToArray());
         }
     }
 }

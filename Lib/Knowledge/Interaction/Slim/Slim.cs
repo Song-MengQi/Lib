@@ -7,6 +7,7 @@ namespace Lib
 {
     public class Slim : ISlim, IDisposable
     {
+        private readonly ILockable shockLockable = new Lockable();
         private readonly ILockable waitLockable = new Lockable();
         private readonly ILockable arrivalLockable = new Lockable();
         private readonly HashSet<ManualResetEventSlim> waitHashSet = new HashSet<ManualResetEventSlim>();
@@ -34,7 +35,7 @@ namespace Lib
         //告诉所有等待的线程，新数据来了
         private void Shock()
         {
-            waitLockable.Invoke(()=>{
+            shockLockable.Invoke(()=>{
                 foreach (ManualResetEventSlim manualResetEventSlim in waitHashSet)
                 {
                     manualResetEventSlim.Set();
@@ -44,15 +45,17 @@ namespace Lib
         }
         public void Arrival(Action<ManualResetEventSlim> shockWaitAction, Action dispatchAction = default(Action))
         {
-            ActionExtends.Invoke(shockWaitAction, shockSlim);
             arrivalLockable.Invoke(()=>{
-                ActionExtends.Invoke(dispatchAction);
-                Shock();
+                ActionExtends.Invoke(shockWaitAction, shockSlim);
+                waitLockable.Invoke(()=>{
+                    ActionExtends.Invoke(dispatchAction);
+                    Shock();
+                });
             });
         }
         public void Add(ManualResetEventSlim manualResetEventSlim)
         {
-            arrivalLockable.Invoke(()=>{
+            waitLockable.Invoke(()=>{
                 manualResetEventSlim.Reset();
                 waitHashSet.Add(manualResetEventSlim);
                 SlimShock();
@@ -60,21 +63,21 @@ namespace Lib
         }
         public void Remove(ManualResetEventSlim manualResetEventSlim)
         {
-            arrivalLockable.Invoke(()=>{
+            waitLockable.Invoke(()=>{
                 waitHashSet.Remove(manualResetEventSlim);
-                manualResetEventSlim.Dispose();
+                //manualResetEventSlim.Dispose();
                 SlimShock();
             });
         }
-        #region 检查不应该在锁里
+        #region 检查应该在锁里
         public bool Check(Func<bool> checkFunc, ManualResetEventSlim manualResetEventSlim)
         {
-            return arrivalLockable.Invoke(()=>{
+            return waitLockable.Invoke(()=>{
                 bool result = checkFunc();
                 if (result)
                 {
                     waitHashSet.Remove(manualResetEventSlim);
-                    manualResetEventSlim.Dispose();
+                    //manualResetEventSlim.Dispose();
                 }
                 else
                 {

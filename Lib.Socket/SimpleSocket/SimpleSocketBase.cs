@@ -21,7 +21,7 @@ namespace Lib.Socket
         protected readonly EndPoint endPoint;
         protected System.Net.Sockets.Socket socket = default(System.Net.Sockets.Socket);
         protected bool shouldConnect = false;
-        protected SimpleSocketBase(string ip, int port)
+        protected SimpleSocketBase(string ip, ushort port)
         {
             endPoint = new IPEndPoint(IPAddress.Parse(ip), port);
             ConnectConfig = new ConnectConfig {

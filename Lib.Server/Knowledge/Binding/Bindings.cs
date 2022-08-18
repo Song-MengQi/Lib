@@ -43,22 +43,11 @@ namespace Lib.Server
             CloseTimeout = TimeSpan.FromSeconds(2),
             SendTimeout = TimeSpan.FromSeconds(16),
             ReceiveTimeout = TimeSpan.FromSeconds(16),
-            MaxReceivedMessageSize = 1 << 20 | 1 << 12,
+            MaxReceivedMessageSize = 1 << 22 | 1 << 12,
             //MaxBufferSize = 1 << 16,
-            MaxBufferPoolSize = 1 << 20 | 1 << 12,
-            /*CrossDomainScriptAccessEnabled = true,*/
-        };
-
-        public static readonly WebHttpBinding JsonBinding = new WebHttpBinding {
-            OpenTimeout = TimeSpan.FromSeconds(2),
-            CloseTimeout = TimeSpan.FromSeconds(2),
-            SendTimeout = TimeSpan.FromSeconds(16),
-            ReceiveTimeout = TimeSpan.FromSeconds(16),
-            MaxReceivedMessageSize = 1 << 20 | 1 << 12,
-            //MaxBufferSize = 1 << 16,
-            MaxBufferPoolSize = 1 << 20 | 1 << 12,
+            MaxBufferPoolSize = 1 << 22 | 1 << 12,
             /*CrossDomainScriptAccessEnabled = true,*/
             ContentTypeMapper = new RawWebContentTypeMapper()
-        };
+        };//超过4M考虑分段传输
     }
 }

@@ -4,7 +4,7 @@ namespace Lib.Socket
 {
     public class SimpleSocketClient : SimpleSocketBase, ISimpleSocketClient
     {
-        public SimpleSocketClient(string ip, int port) : base(ip, port) { }
+        public SimpleSocketClient(string ip, ushort port) : base(ip, port) { }
         protected override int TryConnect()
         {
             socket = new System.Net.Sockets.Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);

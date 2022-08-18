@@ -30,63 +30,63 @@ namespace Lib.Client
         }
         #endregion
         #region request
-        private async Task request(Func<Task> func)
+        private Task Request(Func<Task> func)
         {
-            try { await func(); }
-            catch
+            try { return func(); }
+            catch (Exception)
             {
                 httpClient.Dispose();
                 httpClient = createHttpClientFunc();
+                throw;
             }
-            await func();
         }
-        private async Task<TResult> request<TResult>(Func<Task<TResult>> func)
+        private Task<TResult> Request<TResult>(Func<Task<TResult>> func)
         {
-            try { return await func(); }
-            catch
+            try { return func(); }
+            catch (Exception)
             {
                 httpClient.Dispose();
                 httpClient = createHttpClientFunc();
+                throw;
             }
-            return await func();
         }
         #endregion
         #region Get
-        public async Task<HttpResponseMessage> GetAsync(string uri)
+        public Task<HttpResponseMessage> GetAsync(string uri)
         {
-            return await request(() => httpClient.GetAsync(uri));
+            return Request(() => httpClient.GetAsync(uri));
         }
-        public async Task<HttpResponseMessage> GetAsync(string uri, CancellationToken cancellationToken)
+        public Task<HttpResponseMessage> GetAsync(string uri, CancellationToken cancellationToken)
         {
-            return await request(() => httpClient.GetAsync(uri, cancellationToken));
+            return Request(() => httpClient.GetAsync(uri, cancellationToken));
         }
-        public async Task<string> GetStringAsync(string uri)
+        public Task<string> GetStringAsync(string uri)
         {
-            return await request(() => httpClient.GetStringAsync(uri));
+            return Request(() => httpClient.GetStringAsync(uri));
         }
-        public async Task<byte[]> GetByteArrayAsync(string uri)
+        public Task<byte[]> GetByteArrayAsync(string uri)
         {
-            return await request(() => httpClient.GetByteArrayAsync(uri));
+            return Request(() => httpClient.GetByteArrayAsync(uri));
         }
         #endregion
         #region Post
-        public async Task<HttpResponseMessage> PostAsync(string uri, HttpContent httpContent)
+        public Task<HttpResponseMessage> PostAsync(string uri, HttpContent httpContent)
         {
-            return await request(() => httpClient.PostAsync(uri, httpContent));
+            return Request(() => httpClient.PostAsync(uri, httpContent));
         }
-        public async Task<HttpResponseMessage> PostAsync(string uri, HttpContent httpContent, CancellationToken cancellationToken)
+        public Task<HttpResponseMessage> PostAsync(string uri, HttpContent httpContent, CancellationToken cancellationToken)
         {
-            return await request(() => httpClient.PostAsync(uri, httpContent, cancellationToken));
+            return Request(() => httpClient.PostAsync(uri, httpContent, cancellationToken));
         }
         #endregion
         #region Send
-        public async Task<HttpResponseMessage> SendAsync(HttpRequestMessage httpRequestMessage)
+        public Task<HttpResponseMessage> SendAsync(HttpRequestMessage httpRequestMessage)
         {
-            return await request(() => httpClient.SendAsync(httpRequestMessage));
+            return Request(() => httpClient.SendAsync(httpRequestMessage));
         }
-        public async Task<HttpResponseMessage> SendAsync(HttpRequestMessage httpRequestMessage, CancellationToken cancellationToken)
+        public Task<HttpResponseMessage> SendAsync(HttpRequestMessage httpRequestMessage, CancellationToken cancellationToken)
         {
-            return await request(() => httpClient.SendAsync(httpRequestMessage, cancellationToken));
+            return Request(() => httpClient.SendAsync(httpRequestMessage, cancellationToken));
         }
         #endregion
     }

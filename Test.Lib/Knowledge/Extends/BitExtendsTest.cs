@@ -7,7 +7,7 @@ namespace Test.Lib
     public class BitExtendsTest : TestBase
     {
         [TestMethod]
-        public void Test()
+        public void TestBit()
         {
             byte b1 = 0;
             BitExtends.SetBit(ref b1, 3);
@@ -39,6 +39,17 @@ namespace Test.Lib
             BitExtends.UnsetBit(b2, 100);
         }
         [TestMethod]
+        public void TestGetBitLength()
+        {
+            Assert.AreEqual(BitExtends.GetBitLength(0ul, 64ul), 0);
+            Assert.AreEqual(BitExtends.GetBitLength(1ul, 64ul), 1);
+
+            Assert.AreEqual(BitExtends.GetBitLength(63ul, 64ul), 1);
+            Assert.AreEqual(BitExtends.GetBitLength(64ul, 64ul), 1);
+            Assert.AreEqual(BitExtends.GetBitLength(65ul, 64ul), 2);
+            Assert.AreEqual(BitExtends.GetBitLength(ulong.MaxValue, 64ul), 11);
+        }
+        [TestMethod]
         public void TestGetHexLength()
         {
             Assert.AreEqual(BitExtends.GetHexLength(0), 0);
@@ -47,6 +58,15 @@ namespace Test.Lib
             Assert.AreEqual(BitExtends.GetHexLength(256), 2);
             Assert.AreEqual(BitExtends.GetHexLength(255), 2);
             Assert.AreEqual(BitExtends.GetHexLength(257), 3);
+        }
+        [TestMethod]
+        public void TestDigit()
+        {
+            byte[] bytes = new byte[8];//总数据
+            uint value = 123;//一个32bit的数字
+            ushort[] bits = ArrayExtends.GetArray(32, i => (ushort)(32 + i));//一个32bit的地址
+            BitExtends.SetDigit(bytes, value, bits);
+            Assert.AreEqual(BitExtends.GetDigit<uint>(bytes, bits), value);
         }
     }
 }
